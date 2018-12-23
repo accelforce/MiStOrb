@@ -28,4 +28,10 @@ jobs:
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
+      - run:
+          name: Run Jacoco Report
+          command: ./gradlew jacocoTestReport
+      - run:
+          name: Send report to Codecov
+          command: bash <(curl -s https://codecov.io/bash)
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples

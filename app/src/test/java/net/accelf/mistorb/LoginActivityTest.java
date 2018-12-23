@@ -21,8 +21,8 @@ public class LoginActivityTest {
                 LoginActivity.class.getDeclaredMethod("buildLoginUrl", String.class);
         method.setAccessible(true);
 
-        assertEquals(method.invoke(null, "example.com"),
-                "https://example.com/auth/sign_in");
+        assertEquals("https://example.com/auth/sign_in",
+                method.invoke(null, "example.com"));
     }
 
     @Test

@@ -18,7 +18,7 @@ public class InstancePickUtil {
         saveData = new SaveDataUtil(context);
     }
 
-    public String selectedInstance(){
+    public String selectedInstance() {
         return preferences.getString(PREF_SELECTED_DOMAIN, null);
     }
 
@@ -31,21 +31,28 @@ public class InstancePickUtil {
                 .apply();
     }
 
+    public void removeInstance() {
+        saveData.removeCookie(selectedInstance());
+        preferences.edit()
+                .remove(selectedInstance())
+                .apply();
+    }
+
     public void addNewInstance(String domain, String cookie) {
         saveData.saveCookie(domain, cookie);
         setSelectedInstance(domain);
     }
 
-    public boolean selectAnyway(){
-        if (selectedInstance()!=null){
+    public boolean selectAnyway() {
+        if (selectedInstance() != null) {
             return true;
         }
         Set<String> domainList = saveData.listCookies();
-        if (domainList.isEmpty()){
+        if (domainList.isEmpty()) {
             return false;
         }
         Object[] domainArray = domainList.toArray();
-        if (domainArray == null){
+        if (domainArray == null) {
             return false;
         }
         setSelectedInstance((String) domainArray[0]);

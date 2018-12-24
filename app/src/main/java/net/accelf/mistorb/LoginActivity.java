@@ -3,14 +3,15 @@ package net.accelf.mistorb;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import net.accelf.mistorb.util.InstancePickUtil;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLayoutVariables() {
-        webView = findViewById(R.id.login_web_view);
+        webView = findViewById(R.id.activity_login_web_view);
     }
 
     private static String buildLoginUrl(String instanceDomain) {

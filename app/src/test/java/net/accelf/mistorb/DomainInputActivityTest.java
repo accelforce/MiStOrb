@@ -1,7 +1,7 @@
 package net.accelf.mistorb;
 
 import android.content.Intent;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.widget.Button;
 
 import org.junit.Test;

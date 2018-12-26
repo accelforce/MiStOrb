@@ -3,12 +3,15 @@ package net.accelf.mistorb;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import net.accelf.mistorb.util.InstancePickUtil;
+import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +37,20 @@ public class LoginActivity extends AppCompatActivity {
         instanceDomain = getDomainFromIntent(getIntent());
         setupWebView();
         loadLoginPage(buildLoginUrl(instanceDomain));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_shared, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getDomainFromIntent(Intent intent) {

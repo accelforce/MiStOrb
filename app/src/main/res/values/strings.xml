@@ -3,4 +3,5 @@
     <string name="activity_domain_input_hint">example.com</string>
     <string name="activity_domain_input_button_go">Go!</string>
     <string name="activity_domain_input_error_invalid">Invalid domain.</string>
+    <string name="menu_oss_licenses">オープンソースライセンス</string>
 </resources>

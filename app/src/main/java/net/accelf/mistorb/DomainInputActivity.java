@@ -2,12 +2,16 @@ package net.accelf.mistorb;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
 import net.accelf.mistorb.util.TextValidateUtil;
+import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 
 public class DomainInputActivity extends AppCompatActivity {
 
@@ -22,6 +26,20 @@ public class DomainInputActivity extends AppCompatActivity {
 
         setupLayoutVariables();
         setupSubmitButton();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_shared, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupLayoutVariables() {

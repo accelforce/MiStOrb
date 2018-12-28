@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import net.accelf.mistorb.api.RetrofitHelper;
 import net.accelf.mistorb.util.InstancePickUtil;
 import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
 
@@ -93,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void completeLogin() {
         CookieManager cookieManager = CookieManager.getInstance();
-        String cookie = cookieManager.getCookie(instanceDomain);
+        String cookieHost = RetrofitHelper.generateEndpoint(instanceDomain).toString();
+        String cookie = cookieManager.getCookie(cookieHost);
         instancePicker.addNewInstance(instanceDomain, cookie);
 
         startMainActivity();

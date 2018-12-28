@@ -4,4 +4,13 @@
     <string name="activity_domain_input_button_go">Go!</string>
     <string name="activity_domain_input_error_invalid">Invalid domain.</string>
     <string name="menu_oss_licenses">オープンソースライセンス</string>
+    <string name="activity_main_stats_sidekiq">Sidekiq</string>
+    <string name="activity_main_stats_processed">Processed</string>
+    <string name="activity_main_stats_failed">Failed</string>
+    <string name="activity_main_stats_busy">Busy</string>
+    <string name="activity_main_stats_processes">Processes</string>
+    <string name="activity_main_stats_enqueued">Enqueued</string>
+    <string name="activity_main_stats_scheduled">Scheduled</string>
+    <string name="activity_main_stats_retries">Retries</string>
+    <string name="activity_main_stats_dead">Dead</string>
 </resources>

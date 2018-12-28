@@ -59,4 +59,7 @@ public class InstancePickUtil {
         return true;
     }
 
+    public String getCookies() {
+        return saveData.cookie(selectedInstance());
+    }
 }

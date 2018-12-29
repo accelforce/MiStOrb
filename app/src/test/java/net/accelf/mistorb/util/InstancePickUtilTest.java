@@ -26,6 +26,7 @@ public class InstancePickUtilTest {
         instancePicker.addNewInstance("example.com", "test-data");
         assertEquals("test-data", saveData.cookie("example.com"));
         assertEquals("example.com", instancePicker.selectedInstance());
+        assertEquals("test-data", instancePicker.getCookies());
     }
 
     @Test
@@ -38,6 +39,7 @@ public class InstancePickUtilTest {
         saveData.saveCookie("example.com", "test-data-1");
         assertTrue(instancePicker.selectAnyway());
         assertEquals("example.com", instancePicker.selectedInstance());
+        assertEquals("test-data-1", instancePicker.getCookies());
 
         instancePicker.removeInstance();
 
@@ -47,6 +49,8 @@ public class InstancePickUtilTest {
         assertTrue(instancePicker.selectAnyway());
         assertThat(instancePicker.selectedInstance(),
                 anyOf(is("example.com"), is("example.net"), is("example.jp")));
+        assertThat(instancePicker.getCookies(),
+                anyOf(is("test-data-1"), is("test-data-2"), is("test-data-3")));
     }
 
     private static SaveDataUtil getSaveData(InstancePickUtil instancePicker) throws Exception {

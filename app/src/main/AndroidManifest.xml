@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".DomainInputActivity"/>
+        <activity android:name=".DomainInputActivity" />
+        <activity android:name=".LicenseActivity" />
     </application>
 
 </manifest>

@@ -3,8 +3,6 @@ package net.accelf.mistorb;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -30,7 +28,7 @@ public class MainActivityTest {
         Intent intent = shadowActivity.peekNextStartedActivity();
         assertNotNull(intent);
         ShadowIntent shadowIntent = Shadows.shadowOf(intent);
-        assertEquals(OssLicensesMenuActivity.class, shadowIntent.getIntentClass());
+        assertEquals(LicenseActivity.class, shadowIntent.getIntentClass());
     }
 
 }

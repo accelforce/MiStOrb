@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
-
+import net.accelf.mistorb.LicenseActivity;
 import net.accelf.mistorb.R;
 
 public class GlobalMenuHelper {
@@ -19,8 +18,7 @@ public class GlobalMenuHelper {
     }
 
     private static void showOssLicenses(Context context) {
-        Intent intent = new Intent(context, OssLicensesMenuActivity.class);
-        intent.putExtra("title", context.getString(R.string.menu_oss_licenses));
+        Intent intent = new Intent(context, LicenseActivity.class);
         context.startActivity(intent);
     }
 }

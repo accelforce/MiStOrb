@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -63,7 +61,7 @@ public class DomainInputActivityTest {
         Intent intent = shadowActivity.peekNextStartedActivity();
         assertNotNull(intent);
         ShadowIntent shadowIntent = Shadows.shadowOf(intent);
-        assertEquals(OssLicensesMenuActivity.class, shadowIntent.getIntentClass());
+        assertEquals(LicenseActivity.class, shadowIntent.getIntentClass());
     }
 
     private void setEditTextValue(DomainInputActivity activity, String value) {

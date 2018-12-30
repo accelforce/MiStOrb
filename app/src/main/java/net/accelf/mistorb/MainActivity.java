@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout statsContainer;
     private ViewStatsHelper viewStatsHelper;
 
+    private Callback<Stats> fetchStatsCallback;
+    private Callback<Stats> refreshStatsCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setupSwipeRefreshLayout();
         setupServerInfo();
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, cookies);
+        setupCallback();
         fetchStats();
     }
 
@@ -102,30 +106,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshStats() {
         swipeRefreshLayout.setRefreshing(true);
-        sidekiqApi.getStats().enqueue(new Callback<Stats>() {
-            @Override
-            public void onResponse(@NonNull Call<Stats> call, @NonNull Response<Stats> response) {
-                if (response.body() != null) {
-                    viewStatsHelper.updateStats(response.body());
-                }
-                viewStats();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Stats> call, @NonNull Throwable t) {
-                viewStats();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        sidekiqApi.getStats().enqueue(refreshStatsCallback);
     }
 
     private void setupServerInfo() {
         serverInfo.setText(selectedDomain);
     }
 
-    private void fetchStats() {
-        sidekiqApi.getStats().enqueue(new Callback<Stats>() {
+    private void setupCallback() {
+        fetchStatsCallback = new Callback<Stats>() {
             @Override
             public void onResponse(@NonNull Call<Stats> call, @NonNull Response<Stats> response) {
                 if (response.body() == null) {
@@ -142,7 +131,27 @@ public class MainActivity extends AppCompatActivity {
                 viewStats();
                 viewStatsHelper.updateStats(new Stats());
             }
-        });
+        };
+        refreshStatsCallback = new Callback<Stats>() {
+            @Override
+            public void onResponse(@NonNull Call<Stats> call, @NonNull Response<Stats> response) {
+                if (response.body() != null) {
+                    viewStatsHelper.updateStats(response.body());
+                }
+                viewStats();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Stats> call, @NonNull Throwable t) {
+                viewStats();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        };
+    }
+
+    private void fetchStats() {
+        sidekiqApi.getStats().enqueue(fetchStatsCallback);
     }
 
     private void viewStats() {

@@ -32,10 +32,16 @@ public class RetrofitHelper {
     }
 
     public static HttpUrl generateEndpoint(String domain) {
-        return new HttpUrl.Builder()
-                .scheme("https")
-                .host(domain)
-                .build();
+        HttpUrl.Builder builder = new HttpUrl.Builder()
+                .scheme("https");
+        if (domain.contains(":")) {
+            String[] hostAndPort = domain.split(":");
+            builder.host(hostAndPort[0])
+                    .port(Integer.parseInt(hostAndPort[1]));
+        } else {
+            builder.host(domain);
+        }
+        return builder.build();
     }
 
     private static Gson generateGson() {

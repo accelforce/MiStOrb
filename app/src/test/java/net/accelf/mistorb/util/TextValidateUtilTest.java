@@ -13,6 +13,9 @@ public class TextValidateUtilTest {
         assertFalse(TextValidateUtil.isHostName(""));
         assertFalse(TextValidateUtil.isHostName("not a domain"));
         assertTrue(TextValidateUtil.isHostName("example.com"));
+        assertTrue(TextValidateUtil.isHostName("with.port.number:443"));
+        assertFalse(TextValidateUtil.isHostName("multiple:80:443"));
+        assertTrue(TextValidateUtil.isHostName("localhost:8080"));
     }
 
 }

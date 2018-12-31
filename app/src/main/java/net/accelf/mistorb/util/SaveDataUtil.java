@@ -11,7 +11,7 @@ public class SaveDataUtil {
 
     private static final String PREF_COOKIE_STORE = "cookie_store";
 
-    SaveDataUtil(Context context) {
+    public SaveDataUtil(Context context) {
         preferences = context.getSharedPreferences(PREF_COOKIE_STORE, Context.MODE_PRIVATE);
     }
 
@@ -34,7 +34,7 @@ public class SaveDataUtil {
                 .apply();
     }
 
-    Set<String> listCookies(){
+    public Set<String> listCookies(){
         return preferences.getAll().keySet();
     }
 

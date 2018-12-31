@@ -8,16 +8,23 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
 import net.accelf.mistorb.api.MastodonSidekiqApi;
 import net.accelf.mistorb.api.RetrofitHelper;
 import net.accelf.mistorb.api.Stats;
 import net.accelf.mistorb.util.InstancePickUtil;
+import net.accelf.mistorb.viewhelper.DrawerHelper;
 import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
 import net.accelf.mistorb.viewhelper.ViewStatsHelper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private MastodonSidekiqApi sidekiqApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Toolbar toolbar;
     private AppCompatTextView serverInfo;
     private ProgressBar loading;
     private RelativeLayout statsContainer;
     private ViewStatsHelper viewStatsHelper;
+    private Drawer drawer;
 
     private Callback<Stats> fetchStatsCallback;
     private Callback<Stats> refreshStatsCallback;
@@ -53,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         getCookies();
         setupLayoutVariables();
+        setupToolbar();
+        setupDrawer();
         setupSwipeRefreshLayout();
         setupServerInfo();
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, cookies);
@@ -94,10 +105,70 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupLayoutVariables() {
         swipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
+        toolbar = findViewById(R.id.activity_main_toolbar);
         serverInfo = findViewById(R.id.activity_main_server_info);
         loading = findViewById(R.id.activity_main_loading);
         statsContainer = findViewById(R.id.activity_main_stats_container);
         viewStatsHelper = new ViewStatsHelper(statsContainer);
+    }
+
+    private void setupDrawer() {
+        AccountHeader.OnAccountHeaderListener accountHeaderListener =
+                (view, profile, current) -> handleProfileChanged(profile, current);
+        Drawer.OnDrawerItemClickListener drawerItemClickListener =
+                (view, position, drawerItem) -> handleDrawerItemClick(drawerItem);
+
+        DrawerHelper helper = new DrawerHelper(this);
+        helper.initializeImageLoader();
+        drawer = helper.buildDrawer(accountHeaderListener, drawerItemClickListener, toolbar);
+    }
+
+    private boolean handleProfileChanged(IProfile profile, boolean current) {
+        drawer.closeDrawer();
+        if (current) {
+            return true;
+        }
+        if (DrawerHelper.DrawerItem.fromId((int) profile.getIdentifier())
+                == DrawerHelper.DrawerItem.ITEM_ADD_NEW) {
+            requestInstanceDomain();
+            return true;
+        }
+        instancePicker.setSelectedInstance(profile.getName().toString());
+        reloadMainActivity();
+        return false;
+    }
+
+    private void reloadMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
+        finish();
+    }
+
+    private boolean handleDrawerItemClick(IDrawerItem drawerItem) {
+        DrawerHelper.DrawerItem id = DrawerHelper.DrawerItem.fromId((int) drawerItem.getIdentifier());
+        if (id == null) {
+            return false;
+        }
+        switch (id) {
+            case ITEM_RE_LOGIN:
+                startReLogin();
+                return true;
+        }
+        return false;
+    }
+
+    private void startReLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(LoginActivity.EXTRA_INSTANCE_DOMAIN, selectedDomain);
+        startActivity(intent);
+
+        finish();
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     private void setupSwipeRefreshLayout() {

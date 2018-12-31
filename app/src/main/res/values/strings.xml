@@ -13,4 +13,7 @@
     <string name="activity_main_stats_scheduled">Scheduled</string>
     <string name="activity_main_stats_retries">Retries</string>
     <string name="activity_main_stats_dead">Dead</string>
+    <string name="drawer_item_re_login">Re-login</string>
+    <string name="drawer_item_desc_re_login">Try this if all values are 0.</string>
+    <string name="drawer_item_add">Add new instance</string>
 </resources>

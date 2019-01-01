@@ -21,6 +21,7 @@ import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -128,6 +129,26 @@ public class MainActivityTest {
         assertEquals("22,802,891",
                 ((AppCompatTextView) activity3.findViewById(R.id.activity_main_stats_data_processed)).getText());
         assertFalse(((SwipeRefreshLayout) activity3.findViewById(R.id.activity_main_swipe_refresh_layout)).isRefreshing());
+    }
+
+    @Test
+    @Config(shadows = {ShadowDrawerHelper.class})
+    public void test_startReLogin() throws Exception {
+        InstancePickUtil instancePicker = new InstancePickUtil(ApplicationProvider.getApplicationContext());
+        instancePicker.addNewInstance("example.com", "data=value");
+
+        MainActivity activity = Robolectric.setupActivity(MainActivity.class);
+
+        Method method = MainActivity.class.getDeclaredMethod("startReLogin");
+        method.setAccessible(true);
+        method.invoke(activity);
+
+        ShadowActivity shadowActivity = Shadows.shadowOf(activity);
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertNotNull(intent);
+        assertEquals("example.com", intent.getStringExtra(LoginActivity.EXTRA_INSTANCE_DOMAIN));
+        ShadowIntent shadowIntent = Shadows.shadowOf(intent);
+        assertEquals(LoginActivity.class, shadowIntent.getIntentClass());
     }
 
     private static void testStatsUpdate(MainActivity activity, String targetCallback, boolean useSuccess, Stats body) throws Exception {

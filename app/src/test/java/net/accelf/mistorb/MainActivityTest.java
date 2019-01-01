@@ -7,13 +7,15 @@ import android.view.View;
 import net.accelf.mistorb.api.MastodonSidekiqApi;
 import net.accelf.mistorb.api.Sidekiq;
 import net.accelf.mistorb.api.Stats;
+import net.accelf.mistorb.robolectric.CustomRobolectricTestRunner;
+import net.accelf.mistorb.robolectric.ShadowDrawerHelper;
 import net.accelf.mistorb.util.InstancePickUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(CustomRobolectricTestRunner.class)
 public class MainActivityTest {
 
     @Test
@@ -45,6 +47,7 @@ public class MainActivityTest {
     }
 
     @Test
+    @Config(shadows = {ShadowDrawerHelper.class})
     public void test_fetchStats() throws Exception {
         InstancePickUtil instancePicker = new InstancePickUtil(ApplicationProvider.getApplicationContext());
         instancePicker.addNewInstance("example.com", "data=value");

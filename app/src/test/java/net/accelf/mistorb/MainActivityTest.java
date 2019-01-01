@@ -23,11 +23,13 @@ import org.robolectric.shadows.ShadowIntent;
 import java.lang.reflect.Field;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.test.core.app.ApplicationProvider;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(CustomRobolectricTestRunner.class)
@@ -53,38 +55,89 @@ public class MainActivityTest {
         instancePicker.addNewInstance("example.com", "data=value");
 
         MainActivity activity1 = Robolectric.setupActivity(MainActivity.class);
+        testStatsUpdate(activity1, "fetchStatsCallback", true, null);
         assertEquals("example.com",
                 ((AppCompatTextView) activity1.findViewById(R.id.activity_main_server_info)).getText());
-
-        Callback<Stats> callback1 = getCallback(activity1, "fetchStatsCallback");
-        MastodonSidekiqApi sidekiqApi1 = getMastodonSidekiqApi(activity1);
-        callback1.onResponse(sidekiqApi1.getStats(), Response.success(null));
         assertEquals(View.INVISIBLE, activity1.findViewById(R.id.activity_main_loading).getVisibility());
         assertEquals(View.VISIBLE, activity1.findViewById(R.id.activity_main_stats_container).getVisibility());
         assertEquals("0",
                 ((AppCompatTextView) activity1.findViewById(R.id.activity_main_stats_data_processed)).getText());
 
-        MainActivity activity2 = Robolectric.setupActivity(MainActivity.class);
-        Callback<Stats> callback2 = getCallback(activity2, "fetchStatsCallback");
-        MastodonSidekiqApi sidekiqApi2 = getMastodonSidekiqApi(activity2);
         Stats body = new Stats();
         Sidekiq sidekiq = new Sidekiq();
         sidekiq.processed = 22802891;
         body.sidekiq = sidekiq;
-        callback2.onResponse(sidekiqApi2.getStats(), Response.success(body));
+        MainActivity activity2 = Robolectric.setupActivity(MainActivity.class);
+        testStatsUpdate(activity2, "fetchStatsCallback", true, body);
         assertEquals(View.INVISIBLE, activity2.findViewById(R.id.activity_main_loading).getVisibility());
         assertEquals(View.VISIBLE, activity2.findViewById(R.id.activity_main_stats_container).getVisibility());
         assertEquals("22,802,891",
                 ((AppCompatTextView) activity2.findViewById(R.id.activity_main_stats_data_processed)).getText());
 
         MainActivity activity3 = Robolectric.setupActivity(MainActivity.class);
-        Callback<Stats> callback3 = getCallback(activity3, "fetchStatsCallback");
-        MastodonSidekiqApi sidekiqApi3 = getMastodonSidekiqApi(activity3);
-        callback3.onFailure(sidekiqApi3.getStats(), new Throwable());
+        testStatsUpdate(activity3, "fetchStatsCallback", false, null);
         assertEquals(View.INVISIBLE, activity3.findViewById(R.id.activity_main_loading).getVisibility());
         assertEquals(View.VISIBLE, activity3.findViewById(R.id.activity_main_stats_container).getVisibility());
         assertEquals("0",
                 ((AppCompatTextView) activity3.findViewById(R.id.activity_main_stats_data_processed)).getText());
+    }
+
+    @Test
+    @Config(shadows = {ShadowDrawerHelper.class})
+    public void test_refreshStats() throws Exception {
+        InstancePickUtil instancePicker = new InstancePickUtil(ApplicationProvider.getApplicationContext());
+        instancePicker.addNewInstance("example.com", "data=value");
+
+        Stats body1 = new Stats();
+        Sidekiq sidekiq1 = new Sidekiq();
+        sidekiq1.processed = 22802891;
+        body1.sidekiq = sidekiq1;
+
+        MainActivity activity1 = Robolectric.setupActivity(MainActivity.class);
+        testStatsUpdate(activity1, "fetchStatsCallback", true, body1);
+        ((SwipeRefreshLayout) activity1.findViewById(R.id.activity_main_swipe_refresh_layout)).setRefreshing(true);
+        testStatsUpdate(activity1, "refreshStatsCallback", true, null);
+        assertEquals("example.com",
+                ((AppCompatTextView) activity1.findViewById(R.id.activity_main_server_info)).getText());
+        assertEquals(View.INVISIBLE, activity1.findViewById(R.id.activity_main_loading).getVisibility());
+        assertEquals(View.VISIBLE, activity1.findViewById(R.id.activity_main_stats_container).getVisibility());
+        assertEquals("22,802,891",
+                ((AppCompatTextView) activity1.findViewById(R.id.activity_main_stats_data_processed)).getText());
+        assertFalse(((SwipeRefreshLayout) activity1.findViewById(R.id.activity_main_swipe_refresh_layout)).isRefreshing());
+
+        Stats body2 = new Stats();
+        Sidekiq sidekiq2 = new Sidekiq();
+        sidekiq2.processed = 20190101;
+        body2.sidekiq = sidekiq2;
+        MainActivity activity2 = Robolectric.setupActivity(MainActivity.class);
+        testStatsUpdate(activity2, "fetchStatsCallback", true, body1);
+        ((SwipeRefreshLayout) activity2.findViewById(R.id.activity_main_swipe_refresh_layout)).setRefreshing(true);
+        testStatsUpdate(activity2, "refreshStatsCallback", true, body2);
+        assertEquals(View.INVISIBLE, activity2.findViewById(R.id.activity_main_loading).getVisibility());
+        assertEquals(View.VISIBLE, activity2.findViewById(R.id.activity_main_stats_container).getVisibility());
+        assertEquals("20,190,101",
+                ((AppCompatTextView) activity2.findViewById(R.id.activity_main_stats_data_processed)).getText());
+        assertFalse(((SwipeRefreshLayout) activity2.findViewById(R.id.activity_main_swipe_refresh_layout)).isRefreshing());
+
+        MainActivity activity3 = Robolectric.setupActivity(MainActivity.class);
+        testStatsUpdate(activity3, "fetchStatsCallback", true, body1);
+        ((SwipeRefreshLayout) activity3.findViewById(R.id.activity_main_swipe_refresh_layout)).setRefreshing(true);
+        testStatsUpdate(activity3, "refreshStatsCallback", false, null);
+        assertEquals(View.INVISIBLE, activity3.findViewById(R.id.activity_main_loading).getVisibility());
+        assertEquals(View.VISIBLE, activity3.findViewById(R.id.activity_main_stats_container).getVisibility());
+        assertEquals("22,802,891",
+                ((AppCompatTextView) activity3.findViewById(R.id.activity_main_stats_data_processed)).getText());
+        assertFalse(((SwipeRefreshLayout) activity3.findViewById(R.id.activity_main_swipe_refresh_layout)).isRefreshing());
+    }
+
+    private static void testStatsUpdate(MainActivity activity, String targetCallback, boolean useSuccess, Stats body) throws Exception {
+        Callback<Stats> callback = getCallback(activity, targetCallback);
+        MastodonSidekiqApi sidekiqApi = getMastodonSidekiqApi(activity);
+        if (useSuccess) {
+            callback.onResponse(sidekiqApi.getStats(), Response.success(body));
+        } else {
+            callback.onFailure(sidekiqApi.getStats(), new Throwable());
+        }
     }
 
     private static MastodonSidekiqApi getMastodonSidekiqApi(MainActivity activity) throws Exception {

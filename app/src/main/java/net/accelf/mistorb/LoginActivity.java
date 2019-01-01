@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         instancePicker = new InstancePickUtil(this);
 
         instanceDomain = getDomainFromIntent(getIntent());
+        clearCookie();
         setupWebView();
         loadLoginPage(buildLoginUrl(instanceDomain));
     }
@@ -69,6 +70,11 @@ public class LoginActivity extends AppCompatActivity {
                 .path("/auth/sign_in")
                 .build();
         return uri.toString();
+    }
+
+    private void clearCookie(){
+        CookieManager.getInstance()
+                .removeAllCookies(null);
     }
 
     private void setupWebView() {

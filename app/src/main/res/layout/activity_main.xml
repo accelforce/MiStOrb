@@ -16,250 +16,258 @@
         android:id="@+id/activity_main_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_toolbar">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/activity_main_server_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="24sp"
-            tools:text="example.com" />
-
-        <ProgressBar
-            android:id="@+id/activity_main_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_main_server_info" />
-
-        <RelativeLayout
-            android:id="@+id/activity_main_stats_container"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activity_main_server_info"
-            tools:visibility="visible">
-
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activity_main_stats_title_sidekiq"
+                android:id="@+id/activity_main_server_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/divider1"
-                android:text="@string/activity_main_stats_sidekiq"
-                android:textSize="24sp" />
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp"
+                tools:text="example.com" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_processed"
+            <ProgressBar
+                android:id="@+id/activity_main_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_main_server_info" />
+
+            <RelativeLayout
+                android:id="@+id/activity_main_stats_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_title_sidekiq"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_main_server_info"
+                tools:visibility="visible">
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/activity_main_stats_title_sidekiq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_processed"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_below="@+id/divider1"
+                    android:text="@string/activity_main_stats_sidekiq"
+                    android:textSize="24sp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_processed"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_processed"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
+                    android:layout_below="@+id/activity_main_stats_title_sidekiq"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_processed"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_failed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_processed"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_processed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_failed"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_failed"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_processed"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_failed"
-                    android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_failed"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_failed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_busy"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_failed"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_busy"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_busy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_failed"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_busy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_processes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_busy"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_busy"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_busy"
-                    android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_processes"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_processes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_enqueued"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_processes"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_enqueued"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_processes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_busy"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_enqueued"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_scheduled"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_processes"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_enqueued"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_processes"
-                    android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_scheduled"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_scheduled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_retries"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_scheduled"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_retries"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_enqueued"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_processes"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_retries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activity_main_stats_sidekiq_dead"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_enqueued"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:layout_below="@+id/activity_main_stats_sidekiq_retries"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_enqueued"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_main_stats_dead"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/activity_main_stats_data_dead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="1,000,000" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_scheduled"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_enqueued"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_scheduled"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
+            </RelativeLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_scheduled"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_retries"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_scheduled"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_retries"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_retries"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/activity_main_stats_sidekiq_dead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_main_stats_sidekiq_retries"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_main_stats_dead"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_main_stats_data_dead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1,000,000" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

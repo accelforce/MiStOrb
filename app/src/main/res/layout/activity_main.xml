@@ -10,7 +10,8 @@
         android:id="@+id/activity_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
@@ -30,6 +31,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="example.com" />
 
             <ProgressBar
@@ -78,7 +81,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_processed"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_processed"
@@ -86,6 +90,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,7 +108,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_failed"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_failed"
@@ -111,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -128,7 +135,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_busy"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_busy"
@@ -136,6 +144,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -153,7 +162,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_processes"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_processes"
@@ -161,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -178,7 +189,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_enqueued"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_enqueued"
@@ -186,6 +198,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -203,7 +216,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_scheduled"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_scheduled"
@@ -211,6 +225,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,7 +243,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_retries"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_retries"
@@ -236,6 +252,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -253,7 +270,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/activity_main_stats_dead"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/activity_main_stats_data_dead"
@@ -261,6 +279,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,000,000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

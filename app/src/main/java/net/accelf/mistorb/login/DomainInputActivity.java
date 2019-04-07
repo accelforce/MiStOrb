@@ -1,4 +1,4 @@
-package net.accelf.mistorb;
+package net.accelf.mistorb.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.accelf.mistorb.util.TextValidateUtil;
-import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
+import net.accelf.mistorb.R;
+import net.accelf.mistorb.menu.GlobalMenuHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;

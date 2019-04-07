@@ -1,4 +1,6 @@
-package net.accelf.mistorb.api;
+package net.accelf.mistorb.network;
+
+import net.accelf.mistorb.model.Stats;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package net.accelf.mistorb;
+package net.accelf.mistorb.login;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,9 +10,11 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import net.accelf.mistorb.api.RetrofitHelper;
-import net.accelf.mistorb.util.InstancePickUtil;
-import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
+import net.accelf.mistorb.R;
+import net.accelf.mistorb.network.RetrofitHelper;
+import net.accelf.mistorb.main.MainActivity;
+import net.accelf.mistorb.db.InstancePickUtil;
+import net.accelf.mistorb.menu.GlobalMenuHelper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

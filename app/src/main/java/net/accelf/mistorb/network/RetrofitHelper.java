@@ -1,9 +1,10 @@
-package net.accelf.mistorb.api;
+package net.accelf.mistorb.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.accelf.mistorb.BuildConfig;
+import net.accelf.mistorb.network.MastodonSidekiqApi;
 
 import java.util.ArrayList;
 import java.util.List;

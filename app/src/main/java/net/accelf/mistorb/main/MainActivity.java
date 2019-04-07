@@ -1,4 +1,4 @@
-package net.accelf.mistorb;
+package net.accelf.mistorb.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +13,15 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import net.accelf.mistorb.api.MastodonSidekiqApi;
-import net.accelf.mistorb.api.RetrofitHelper;
-import net.accelf.mistorb.api.Stats;
-import net.accelf.mistorb.util.InstancePickUtil;
-import net.accelf.mistorb.viewhelper.DrawerHelper;
-import net.accelf.mistorb.viewhelper.GlobalMenuHelper;
-import net.accelf.mistorb.viewhelper.ViewStatsHelper;
+import net.accelf.mistorb.login.DomainInputActivity;
+import net.accelf.mistorb.login.LoginActivity;
+import net.accelf.mistorb.R;
+import net.accelf.mistorb.network.MastodonSidekiqApi;
+import net.accelf.mistorb.network.RetrofitHelper;
+import net.accelf.mistorb.model.Stats;
+import net.accelf.mistorb.db.InstancePickUtil;
+import net.accelf.mistorb.drawer.DrawerHelper;
+import net.accelf.mistorb.menu.GlobalMenuHelper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

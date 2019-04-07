@@ -1,7 +1,9 @@
-package net.accelf.mistorb;
+package net.accelf.mistorb.license;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import net.accelf.mistorb.R;
 
 import team.birdhead.widget.LicenseView;
 

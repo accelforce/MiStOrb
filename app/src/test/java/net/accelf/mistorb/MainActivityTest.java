@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.accelf.mistorb.api.MastodonSidekiqApi;
-import net.accelf.mistorb.api.Sidekiq;
-import net.accelf.mistorb.api.Stats;
+import net.accelf.mistorb.network.MastodonSidekiqApi;
+import net.accelf.mistorb.model.Sidekiq;
+import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.robolectric.CustomRobolectricTestRunner;
 import net.accelf.mistorb.robolectric.ShadowDrawerHelper;
-import net.accelf.mistorb.util.InstancePickUtil;
+import net.accelf.mistorb.license.LicenseActivity;
+import net.accelf.mistorb.login.LoginActivity;
+import net.accelf.mistorb.main.MainActivity;
+import net.accelf.mistorb.db.InstancePickUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

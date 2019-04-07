@@ -1,4 +1,4 @@
-package net.accelf.mistorb.viewhelper;
+package net.accelf.mistorb.drawer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,9 +21,9 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
 import net.accelf.mistorb.R;
-import net.accelf.mistorb.api.RetrofitHelper;
-import net.accelf.mistorb.util.InstancePickUtil;
-import net.accelf.mistorb.util.SaveDataUtil;
+import net.accelf.mistorb.network.RetrofitHelper;
+import net.accelf.mistorb.db.InstancePickUtil;
+import net.accelf.mistorb.db.SaveDataUtil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;

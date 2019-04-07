@@ -1,4 +1,4 @@
-package net.accelf.mistorb.api;
+package net.accelf.mistorb.model;
 
 import com.google.gson.annotations.SerializedName;
 

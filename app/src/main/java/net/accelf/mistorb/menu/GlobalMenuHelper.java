@@ -1,10 +1,10 @@
-package net.accelf.mistorb.viewhelper;
+package net.accelf.mistorb.menu;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import net.accelf.mistorb.LicenseActivity;
+import net.accelf.mistorb.license.LicenseActivity;
 import net.accelf.mistorb.R;
 
 public class GlobalMenuHelper {

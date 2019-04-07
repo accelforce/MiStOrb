@@ -1,4 +1,4 @@
-package net.accelf.mistorb.util;
+package net.accelf.mistorb.login;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

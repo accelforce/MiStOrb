@@ -1,4 +1,4 @@
-package net.accelf.mistorb.api;
+package net.accelf.mistorb.model;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

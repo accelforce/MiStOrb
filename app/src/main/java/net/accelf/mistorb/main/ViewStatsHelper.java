@@ -1,10 +1,10 @@
-package net.accelf.mistorb.viewhelper;
+package net.accelf.mistorb.main;
 
 import android.view.View;
 
 import net.accelf.mistorb.R;
-import net.accelf.mistorb.api.Sidekiq;
-import net.accelf.mistorb.api.Stats;
+import net.accelf.mistorb.model.Sidekiq;
+import net.accelf.mistorb.model.Stats;
 
 import java.text.NumberFormat;
 

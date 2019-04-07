@@ -1,5 +1,7 @@
 package net.accelf.mistorb.viewhelper;
 
+import net.accelf.mistorb.drawer.DrawerHelper;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

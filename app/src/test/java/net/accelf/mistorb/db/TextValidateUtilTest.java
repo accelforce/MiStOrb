@@ -1,4 +1,6 @@
-package net.accelf.mistorb.util;
+package net.accelf.mistorb.db;
+
+import net.accelf.mistorb.login.TextValidateUtil;
 
 import org.junit.Test;
 

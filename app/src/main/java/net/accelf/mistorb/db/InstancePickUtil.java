@@ -1,4 +1,4 @@
-package net.accelf.mistorb.util;
+package net.accelf.mistorb.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;

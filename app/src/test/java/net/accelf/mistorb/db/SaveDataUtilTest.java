@@ -1,4 +1,4 @@
-package net.accelf.mistorb.util;
+package net.accelf.mistorb.db;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

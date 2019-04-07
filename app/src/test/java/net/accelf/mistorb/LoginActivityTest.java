@@ -8,7 +8,10 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import net.accelf.mistorb.util.InstancePickUtil;
+import net.accelf.mistorb.license.LicenseActivity;
+import net.accelf.mistorb.login.LoginActivity;
+import net.accelf.mistorb.main.MainActivity;
+import net.accelf.mistorb.db.InstancePickUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

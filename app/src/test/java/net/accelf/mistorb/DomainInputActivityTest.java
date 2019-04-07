@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import net.accelf.mistorb.license.LicenseActivity;
+import net.accelf.mistorb.login.DomainInputActivity;
+import net.accelf.mistorb.login.LoginActivity;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;

@@ -1,6 +1,6 @@
 package net.accelf.mistorb.robolectric;
 
-import net.accelf.mistorb.viewhelper.DrawerHelper;
+import net.accelf.mistorb.drawer.DrawerHelper;
 
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;

@@ -1,55 +1,76 @@
 package net.accelf.mistorb.main;
 
-import android.view.View;
+import android.content.Context;
 
 import net.accelf.mistorb.R;
+import net.accelf.mistorb.components.datavalue.DataValueModel;
+import net.accelf.mistorb.components.singletitle.SingleTitleModel;
+import net.accelf.mistorb.listlayout.LayoutSize;
 import net.accelf.mistorb.model.Sidekiq;
 import net.accelf.mistorb.model.Stats;
 
 import java.text.NumberFormat;
+import java.util.List;
 
-import androidx.appcompat.widget.AppCompatTextView;
+class ViewStatsHelper {
 
-public class ViewStatsHelper {
+    private Context context;
+    private StatsViewAdapter adapter;
 
-    private View root;
-
-    private AppCompatTextView statsDataProcessed;
-    private AppCompatTextView statsDataFailed;
-    private AppCompatTextView statsDataBusy;
-    private AppCompatTextView statsDataProcesses;
-    private AppCompatTextView statsDataEnqueued;
-    private AppCompatTextView statsDataScheduled;
-    private AppCompatTextView statsDataRetries;
-    private AppCompatTextView statsDataDead;
-
-    public ViewStatsHelper(View root) {
-        this.root = root;
-        setupLayoutVariables();
+    ViewStatsHelper(Context context, StatsViewAdapter adapter) {
+        this.context = context;
+        this.adapter = adapter;
     }
 
-    private void setupLayoutVariables() {
-        statsDataProcessed = root.findViewById(R.id.activity_main_stats_data_processed);
-        statsDataFailed = root.findViewById(R.id.activity_main_stats_data_failed);
-        statsDataBusy = root.findViewById(R.id.activity_main_stats_data_busy);
-        statsDataProcesses = root.findViewById(R.id.activity_main_stats_data_processes);
-        statsDataEnqueued = root.findViewById(R.id.activity_main_stats_data_enqueued);
-        statsDataScheduled = root.findViewById(R.id.activity_main_stats_data_scheduled);
-        statsDataRetries = root.findViewById(R.id.activity_main_stats_data_retries);
-        statsDataDead = root.findViewById(R.id.activity_main_stats_data_dead);
+    private static void updateListItem(List<Object> list, int index, Object item) {
+        while (true) {
+            if (index > list.size()) {
+                list.add(new SingleTitleModel("", new LayoutSize(0)));
+            } else {
+                break;
+            }
+        }
+
+        if (index == list.size()) {
+            list.add(item);
+            return;
+        }
+
+        list.set(index, item);
     }
 
-    public void updateStats(Stats stats) {
-        Sidekiq sidekiq = stats.sidekiq;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-
-        statsDataProcessed.setText(numberFormat.format(sidekiq.processed));
-        statsDataFailed.setText(numberFormat.format(sidekiq.failed));
-        statsDataBusy.setText(numberFormat.format(sidekiq.busy));
-        statsDataProcesses.setText(numberFormat.format(sidekiq.processes));
-        statsDataEnqueued.setText(numberFormat.format(sidekiq.enqueued));
-        statsDataScheduled.setText(numberFormat.format(sidekiq.scheduled));
-        statsDataRetries.setText(numberFormat.format(sidekiq.retries));
-        statsDataDead.setText(numberFormat.format(sidekiq.dead));
+    void setServerDomain(String domain) {
+        List<Object> list = adapter.getList();
+        updateListItem(list, 0, new SingleTitleModel(domain, new LayoutSize(0)));
+        adapter.setList(list);
     }
+
+    void updateStats(Stats data) {
+        List<Object> list = adapter.getList();
+        NumberFormat format = NumberFormat.getNumberInstance();
+
+        Sidekiq sidekiq = data.sidekiq;
+        updateListItem(list, 1, new SingleTitleModel(context.getString(R.string.activity_main_stats_sidekiq), new LayoutSize(1)));
+        updateListItem(list, 2, new DataValueModel(context.getString(R.string.activity_main_stats_processed),
+                format.format(sidekiq.processed), new LayoutSize(2)));
+        updateListItem(list, 3, new DataValueModel(context.getString(R.string.activity_main_stats_failed),
+                format.format(sidekiq.failed), new LayoutSize(2)));
+        updateListItem(list, 4, new DataValueModel(context.getString(R.string.activity_main_stats_busy),
+                format.format(sidekiq.busy), new LayoutSize(2)));
+        updateListItem(list, 5, new DataValueModel(context.getString(R.string.activity_main_stats_processes),
+                format.format(sidekiq.processes), new LayoutSize(2)));
+        updateListItem(list, 6, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
+                format.format(sidekiq.enqueued), new LayoutSize(2)));
+        updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
+                format.format(sidekiq.enqueued), new LayoutSize(2)));
+        updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
+                format.format(sidekiq.scheduled), new LayoutSize(2)));
+        updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
+                format.format(sidekiq.retries), new LayoutSize(2)));
+        updateListItem(list, 10, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
+                format.format(sidekiq.dead), new LayoutSize(2)));
+
+        adapter.setList(list);
+    }
+
 }

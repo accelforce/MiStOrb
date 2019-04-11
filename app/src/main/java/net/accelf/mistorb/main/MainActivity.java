@@ -6,27 +6,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import net.accelf.mistorb.login.DomainInputActivity;
-import net.accelf.mistorb.login.LoginActivity;
 import net.accelf.mistorb.R;
-import net.accelf.mistorb.network.MastodonSidekiqApi;
-import net.accelf.mistorb.network.RetrofitHelper;
-import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.db.InstancePickUtil;
 import net.accelf.mistorb.drawer.DrawerHelper;
+import net.accelf.mistorb.login.DomainInputActivity;
+import net.accelf.mistorb.login.LoginActivity;
 import net.accelf.mistorb.menu.GlobalMenuHelper;
+import net.accelf.mistorb.model.Stats;
+import net.accelf.mistorb.network.MastodonSidekiqApi;
+import net.accelf.mistorb.network.RetrofitHelper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,9 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
-    private AppCompatTextView serverInfo;
+    private RecyclerView recyclerView;
     private ProgressBar loading;
-    private RelativeLayout statsContainer;
     private ViewStatsHelper viewStatsHelper;
     private Drawer drawer;
 
@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         setupDrawer();
         setupSwipeRefreshLayout();
-        setupServerInfo();
+        setupRecyclerView();
+        viewStatsHelper.setServerDomain(selectedDomain);
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, cookies);
         setupCallback();
         fetchStats();
@@ -108,10 +109,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupLayoutVariables() {
         swipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
         toolbar = findViewById(R.id.activity_main_toolbar);
-        serverInfo = findViewById(R.id.activity_main_server_info);
+        recyclerView = findViewById(R.id.activity_main_recycler_view);
         loading = findViewById(R.id.activity_main_loading);
-        statsContainer = findViewById(R.id.activity_main_stats_container);
-        viewStatsHelper = new ViewStatsHelper(statsContainer);
     }
 
     private void setupDrawer() {
@@ -177,13 +176,21 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
     }
 
+    private void setupRecyclerView() {
+        StatsViewAdapter adapter = new StatsViewAdapter();
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration divider = new DividerItemDecoration(
+                this, layoutManager.getOrientation());
+        recyclerView.addItemDecoration(divider);
+        recyclerView.setAdapter(adapter);
+        viewStatsHelper = new ViewStatsHelper(this, adapter);
+    }
+
     private void refreshStats() {
         swipeRefreshLayout.setRefreshing(true);
         sidekiqApi.getStats().enqueue(refreshStatsCallback);
-    }
-
-    private void setupServerInfo() {
-        serverInfo.setText(selectedDomain);
     }
 
     private void setupCallback() {
@@ -229,6 +236,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void viewStats() {
         loading.setVisibility(View.INVISIBLE);
-        statsContainer.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

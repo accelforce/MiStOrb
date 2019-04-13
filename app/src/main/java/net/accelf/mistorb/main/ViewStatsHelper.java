@@ -61,13 +61,11 @@ class ViewStatsHelper {
                 format.format(sidekiq.processes), new LayoutSize(2)));
         updateListItem(list, 6, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
                 format.format(sidekiq.enqueued), new LayoutSize(2)));
-        updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
-                format.format(sidekiq.enqueued), new LayoutSize(2)));
-        updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
+        updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
                 format.format(sidekiq.scheduled), new LayoutSize(2)));
-        updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
+        updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
                 format.format(sidekiq.retries), new LayoutSize(2)));
-        updateListItem(list, 10, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
+        updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
                 format.format(sidekiq.dead), new LayoutSize(2)));
 
         adapter.setList(list);

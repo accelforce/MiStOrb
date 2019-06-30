@@ -1,15 +1,15 @@
 package net.accelf.mistorb.network;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.accelf.mistorb.BuildConfig;
-import net.accelf.mistorb.network.MastodonSidekiqApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -54,7 +54,7 @@ public class RetrofitHelper {
     private static OkHttpClient generateOkHttpClient(HttpUrl domain, String cookie) {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor()
-                        .setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY
+                        .setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BASIC
                                 : HttpLoggingInterceptor.Level.NONE))
                 .cookieJar(generateCookieJar(domain, cookie))
                 .build();

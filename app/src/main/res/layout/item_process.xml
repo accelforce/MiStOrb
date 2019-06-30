@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/item_process_status_button"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@color/transparent"
+        android:enabled="false"
+        android:text="@string/item_process_status"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_process_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/item_process_status_button"
+        app:layout_constraintStart_toEndOf="@id/item_process_status_button"
+        app:layout_constraintTop_toTopOf="@id/item_process_status_button"
+        tools:text="host:id" />
+
+    <TextView
+        android:id="@+id/item_process_directory_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorTextDarker"
+        app:layout_constraintBottom_toBottomOf="@+id/item_process_status_button"
+        app:layout_constraintStart_toEndOf="@id/item_process_id_text_view"
+        app:layout_constraintTop_toTopOf="@id/item_process_status_button"
+        tools:text="mastodon" />
+
+    <TextView
+        android:id="@+id/item_process_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/item_process_status_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_process_status_button"
+        tools:text="Running 12:34:56" />
+
+    <TextView
+        android:id="@+id/item_process_queues_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/item_process_status_button"
+        app:layout_constraintTop_toBottomOf="@id/item_process_status_button"
+        tools:text="default, push, pull" />
+
+    <TextView
+        android:id="@+id/item_process_running_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@id/item_process_par_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/item_process_status_button"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/item_process_par_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="@string/item_process_par"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@id/item_process_threads_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/item_process_status_button" />
+
+    <TextView
+        android:id="@+id/item_process_threads_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_process_status_button"
+        tools:text="30" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_process_running"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/item_process_running_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/item_process_running_text_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_process_threads"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/item_process_threads_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/item_process_threads_text_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

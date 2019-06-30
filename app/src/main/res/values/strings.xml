@@ -16,4 +16,8 @@
     <string name="drawer_item_re_login">Re-login</string>
     <string name="drawer_item_desc_re_login">Try this if all values are 0.</string>
     <string name="drawer_item_add">Add new instance</string>
+    <string name="item_process_status">●</string>
+    <string name="item_process_par">/</string>
+    <string name="item_process_running">running</string>
+    <string name="item_process_threads">threads</string>
 </resources>

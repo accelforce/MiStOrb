@@ -3,4 +3,9 @@
     <color name="colorPrimary">#039BE5</color>
     <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#FB8C00</color>
+    <color name="colorTextDarker">#666666</color>
+    <color name="colorProcessStatusBusy">#fbc02d</color>
+    <color name="colorProcessStatusRunning">#5cb85c</color>
+    <color name="colorProcessStatusQuiet">#d9534f</color>
+    <color name="transparent">#00000000</color>
 </resources>

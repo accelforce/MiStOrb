@@ -2,16 +2,14 @@ package net.accelf.mistorb.components.datavalue;
 
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import net.accelf.mistorb.R;
 
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.accelf.mistorb.R;
+
 public class DataValueViewHolder extends RecyclerView.ViewHolder {
 
-    private DataValueModel data;
     private View root;
     private TextView titleTextView;
     private TextView valueTextView;
@@ -28,9 +26,7 @@ public class DataValueViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBindItemViewHolder(DataValueModel data) {
-        this.data = data;
-
-        root.setOnClickListener(this::onClick);
+        root.setOnClickListener(data.onClickListener);
 
         titleTextView.setText(data.title);
         titleTextView.setPadding(data.layoutSize.getIndent(), data.layoutSize.getPadding(),
@@ -41,9 +37,5 @@ public class DataValueViewHolder extends RecyclerView.ViewHolder {
         valueTextView.setPadding(data.layoutSize.getPadding(), data.layoutSize.getPadding(),
                 data.layoutSize.getPadding(), data.layoutSize.getPadding());
         valueTextView.setTextSize(data.layoutSize.getTextSize());
-    }
-
-    private void onClick(View view) {
-        Toast.makeText(view.getContext(), data.value, Toast.LENGTH_SHORT).show();
     }
 }

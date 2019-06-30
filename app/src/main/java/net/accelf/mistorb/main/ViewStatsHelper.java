@@ -1,6 +1,7 @@
 package net.accelf.mistorb.main;
 
 import android.content.Context;
+import android.content.Intent;
 
 import net.accelf.mistorb.R;
 import net.accelf.mistorb.components.datavalue.DataValueModel;
@@ -8,6 +9,7 @@ import net.accelf.mistorb.components.singletitle.SingleTitleModel;
 import net.accelf.mistorb.listlayout.LayoutSize;
 import net.accelf.mistorb.model.Sidekiq;
 import net.accelf.mistorb.model.Stats;
+import net.accelf.mistorb.processes.ProcessesActivity;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -52,21 +54,25 @@ class ViewStatsHelper {
         Sidekiq sidekiq = data.sidekiq;
         updateListItem(list, 1, new SingleTitleModel(context.getString(R.string.activity_main_stats_sidekiq), new LayoutSize(1)));
         updateListItem(list, 2, new DataValueModel(context.getString(R.string.activity_main_stats_processed),
-                format.format(sidekiq.processed), new LayoutSize(2)));
+                format.format(sidekiq.processed), null, new LayoutSize(2)));
         updateListItem(list, 3, new DataValueModel(context.getString(R.string.activity_main_stats_failed),
-                format.format(sidekiq.failed), new LayoutSize(2)));
+                format.format(sidekiq.failed), null, new LayoutSize(2)));
         updateListItem(list, 4, new DataValueModel(context.getString(R.string.activity_main_stats_busy),
-                format.format(sidekiq.busy), new LayoutSize(2)));
+                format.format(sidekiq.busy), null, new LayoutSize(2)));
         updateListItem(list, 5, new DataValueModel(context.getString(R.string.activity_main_stats_processes),
-                format.format(sidekiq.processes), new LayoutSize(2)));
+                format.format(sidekiq.processes), v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, ProcessesActivity.class);
+            context.startActivity(intent);
+        }, new LayoutSize(2)));
         updateListItem(list, 6, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
-                format.format(sidekiq.enqueued), new LayoutSize(2)));
+                format.format(sidekiq.enqueued), null, new LayoutSize(2)));
         updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
-                format.format(sidekiq.scheduled), new LayoutSize(2)));
+                format.format(sidekiq.scheduled), null, new LayoutSize(2)));
         updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
-                format.format(sidekiq.retries), new LayoutSize(2)));
+                format.format(sidekiq.retries), null, new LayoutSize(2)));
         updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
-                format.format(sidekiq.dead), new LayoutSize(2)));
+                format.format(sidekiq.dead), null, new LayoutSize(2)));
 
         adapter.setList(list);
     }

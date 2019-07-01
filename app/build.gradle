@@ -56,7 +56,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.3'
 
     // Utilities
-    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'org.apache.commons:commons-lang3:3.9'
 
     // Test
     testImplementation 'androidx.test:core:1.1.0'

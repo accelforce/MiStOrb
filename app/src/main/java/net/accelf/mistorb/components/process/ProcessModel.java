@@ -1,7 +1,6 @@
 package net.accelf.mistorb.components.process;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -38,8 +37,7 @@ public class ProcessModel {
         this.threads = threads;
     }
 
-    public static List<ProcessModel> toProcesses(String body) {
-        Document document = Jsoup.parse(body);
+    public static List<ProcessModel> toProcesses(Document document) {
         Elements rows = document.select("table.processes tbody tr");
         ArrayList<ProcessModel> list = new ArrayList<>();
         for (Element element : rows) {

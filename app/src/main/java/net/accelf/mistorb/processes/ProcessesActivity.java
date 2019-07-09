@@ -1,14 +1,17 @@
 package net.accelf.mistorb.processes;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,10 @@ import net.accelf.mistorb.db.InstancePickUtil;
 import net.accelf.mistorb.menu.GlobalMenuHelper;
 import net.accelf.mistorb.network.MastodonSidekiqApi;
 import net.accelf.mistorb.network.RetrofitHelper;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
@@ -41,6 +48,8 @@ public class ProcessesActivity extends AppCompatActivity {
     private Callback<ResponseBody> fetchProcessesCallback;
     private Callback<ResponseBody> refreshProcessesCallback;
 
+    private String authenticityToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +68,56 @@ public class ProcessesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_processes, menu);
         getMenuInflater().inflate(R.menu.menu_shared, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        setOptionsItemState(menu, R.id.menu_processes_quiet_all, authenticityToken != null);
+        setOptionsItemState(menu, R.id.menu_processes_kill_all, authenticityToken != null);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setOptionsItemState(Menu menu, @IdRes int id, boolean state) {
+        MenuItem item = menu.findItem(id);
+        item.setEnabled(state);
+        Drawable icon = DrawableCompat.wrap(item.getIcon());
+        DrawableCompat.setTint(icon, state ? getColor(R.color.colorMenuEnabled) : getColor(R.color.colorMenuDisabled));
+        item.setIcon(icon);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_processes_quiet_all: {
+                sidekiqApi.quietAllProcesses(authenticityToken, true)
+                        .enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            }
+                        });
+                return true;
+            }
+            case R.id.menu_processes_kill_all: {
+                sidekiqApi.killAllProcesses(authenticityToken, true)
+                        .enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            }
+                        });
+                return true;
+            }
+        }
         if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
             return true;
         }
@@ -106,7 +159,7 @@ public class ProcessesActivity extends AppCompatActivity {
                     return;
                 }
                 try {
-                    adapter.setList(ProcessModel.toProcesses(response.body().string()));
+                    parseDocument(response.body().string());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -125,7 +178,7 @@ public class ProcessesActivity extends AppCompatActivity {
                     return;
                 }
                 try {
-                    adapter.setList(ProcessModel.toProcesses(response.body().string()));
+                    parseDocument(response.body().string());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -138,6 +191,16 @@ public class ProcessesActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         };
+    }
+
+    private void parseDocument(String body) {
+        Document document = Jsoup.parse(body);
+
+        Element input = document.select("form input[name=\"authenticity_token\"]").first();
+        authenticityToken = input.attr("value");
+        invalidateOptionsMenu();
+
+        adapter.setList(ProcessModel.toProcesses(document));
     }
 
     private void fetchProcesses() {

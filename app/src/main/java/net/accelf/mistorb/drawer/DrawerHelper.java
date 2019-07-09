@@ -78,7 +78,7 @@ public class DrawerHelper {
         ProfileSettingDrawerItem addNewDrawerItem = new ProfileSettingDrawerItem()
                 .withIdentifier(DrawerItem.ITEM_ADD_NEW.getId())
                 .withIcon(R.drawable.ic_add)
-                .withIconColorRes(R.color.colorText)
+                .withIconColorRes(R.color.colorMenuEnabled)
                 .withIconTinted(true)
                 .withName(activity.getString(R.string.drawer_item_add));
         return builder.addProfiles(addNewDrawerItem);
@@ -106,7 +106,7 @@ public class DrawerHelper {
                     item = new PrimaryDrawerItem()
                             .withIdentifier(id.getId())
                             .withIcon(R.drawable.ic_refresh)
-                            .withIconColorRes(R.color.colorText)
+                            .withIconColorRes(R.color.colorMenuEnabled)
                             .withIconTintingEnabled(true)
                             .withName(activity.getString(R.string.drawer_item_re_login))
                             .withDescription(activity.getString(R.string.drawer_item_desc_re_login));

@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">MiStOrb</string>
+
     <string name="activity_domain_input_hint">example.com</string>
     <string name="activity_domain_input_button_go">Go!</string>
     <string name="activity_domain_input_error_invalid">Invalid domain.</string>
-    <string name="menu_oss_licenses">オープンソースライセンス</string>
+
     <string name="activity_main_stats_sidekiq">Sidekiq</string>
     <string name="activity_main_stats_processed">Processed</string>
     <string name="activity_main_stats_failed">Failed</string>
@@ -13,9 +14,15 @@
     <string name="activity_main_stats_scheduled">Scheduled</string>
     <string name="activity_main_stats_retries">Retries</string>
     <string name="activity_main_stats_dead">Dead</string>
+
+    <string name="menu_oss_licenses">オープンソースライセンス</string>
+    <string name="menu_quiet_all">Quiet All Processes</string>
+    <string name="menu_kill_all">Kill All Processes</string>
+
     <string name="drawer_item_re_login">Re-login</string>
     <string name="drawer_item_desc_re_login">Try this if all values are 0.</string>
     <string name="drawer_item_add">Add new instance</string>
+
     <string name="item_process_status">●</string>
     <string name="item_process_par">/</string>
     <string name="item_process_running">running</string>

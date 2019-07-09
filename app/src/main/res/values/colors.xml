@@ -3,6 +3,7 @@
     <color name="colorPrimary">#039BE5</color>
     <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#FB8C00</color>
+    <color name="colorText">#FFFFFF</color>
     <color name="colorTextDarker">#666666</color>
     <color name="colorProcessStatusBusy">#fbc02d</color>
     <color name="colorProcessStatusRunning">#5cb85c</color>

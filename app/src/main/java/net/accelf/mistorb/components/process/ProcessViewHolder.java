@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.accelf.mistorb.R;
 import net.accelf.mistorb.compat.AndroidApiCompat;
 
-import java.util.Date;
-
 public class ProcessViewHolder extends RecyclerView.ViewHolder {
 
     @LayoutRes
@@ -27,6 +25,8 @@ public class ProcessViewHolder extends RecyclerView.ViewHolder {
     private TextView runningTextView;
     private TextView threadsTextView;
 
+    private RefreshTimer timer;
+
     public ProcessViewHolder(View item) {
         super(item);
 
@@ -38,13 +38,15 @@ public class ProcessViewHolder extends RecyclerView.ViewHolder {
         queuesTextView = item.findViewById(R.id.item_process_queues_text_view);
         runningTextView = item.findViewById(R.id.item_process_running_text_view);
         threadsTextView = item.findViewById(R.id.item_process_threads_text_view);
+
+        initializeTimer();
     }
 
     public void onBindItemViewHolder(ProcessModel data) {
         setStatus(root.getResources(), root.getContext().getTheme(), statusButton, data.status);
         idTextView.setText(data.id);
         directoryTextView.setText(data.directory);
-        postTimer(timeTextView, data.startedAt);
+        timer.setStartedAt(data.startedAt);
         queuesTextView.setText(data.queues);
         runningTextView.setText(data.running);
         threadsTextView.setText(data.threads);
@@ -67,9 +69,10 @@ public class ProcessViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void postTimer(TextView target, Date startedAt) {
-        final Handler handler = new Handler();
-        handler.post(new RefreshTimer(handler, target, startedAt));
+    private void initializeTimer() {
+        Handler timerHandler = new Handler();
+        timer = new RefreshTimer(timerHandler, timeTextView);
+        timerHandler.post(timer);
     }
 
 }

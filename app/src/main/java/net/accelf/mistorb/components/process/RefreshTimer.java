@@ -13,16 +13,21 @@ public class RefreshTimer implements Runnable {
     private TextView target;
     private Date startedAt;
 
-    RefreshTimer(Handler handler, TextView target, Date startedAt) {
+    RefreshTimer(Handler handler, TextView target) {
         this.handler = handler;
         this.target = target;
+    }
+
+    void setStartedAt(Date startedAt) {
         this.startedAt = startedAt;
     }
 
     @Override
     public void run() {
-        target.setText(calcTimeDiff(startedAt));
-        handler.postDelayed(this, 1000);
+        if (startedAt != null) {
+            target.setText(calcTimeDiff(startedAt));
+            handler.postDelayed(this, 1000);
+        }
     }
 
     private String calcTimeDiff(Date startedAt) {

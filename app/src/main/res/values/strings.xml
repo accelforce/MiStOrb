@@ -15,9 +15,13 @@
     <string name="activity_main_stats_retries">Retries</string>
     <string name="activity_main_stats_dead">Dead</string>
 
+    <string name="activity_retries_loading_text_view">Fetching page %d… (Row %d ~ %d)</string>
+
     <string name="menu_oss_licenses">オープンソースライセンス</string>
-    <string name="menu_quiet_all">Quiet All Processes</string>
-    <string name="menu_kill_all">Kill All Processes</string>
+    <string name="menu_quiet_all">Quiet All</string>
+    <string name="menu_kill_all">Kill All</string>
+    <string name="menu_delete_all">Delete All</string>
+    <string name="menu_retry_all">Retry All</string>
 
     <string name="drawer_item_re_login">Re-login</string>
     <string name="drawer_item_desc_re_login">Try this if all values are 0.</string>
@@ -27,4 +31,6 @@
     <string name="item_process_par">/</string>
     <string name="item_process_running">running</string>
     <string name="item_process_threads">threads</string>
+
+    <string name="item_retry_count">Failed %s time(s).</string>
 </resources>

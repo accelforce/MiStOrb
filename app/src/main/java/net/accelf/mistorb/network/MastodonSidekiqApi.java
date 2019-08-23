@@ -8,6 +8,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface MastodonSidekiqApi {
     @GET("sidekiq/stats")
@@ -25,4 +26,19 @@ public interface MastodonSidekiqApi {
     @POST("sidekiq/busy")
     Call<Void> killAllProcesses(@Field("authenticity_token") String authenticityToken,
                                 @Field("stop") boolean stop);
+
+    @GET("sidekiq/retries")
+    Call<ResponseBody> getRetries(@Query("page") int page, @Query("count") int count);
+
+    @FormUrlEncoded
+    @POST("sidekiq/retries/all/delete")
+    Call<Void> deleteAllRetries(@Field("authenticity_token") String authenticityToken);
+
+    @FormUrlEncoded
+    @POST("sidekiq/retries/all/retry")
+    Call<Void> retryAllRetries(@Field("authenticity_token") String authenticityToken);
+
+    @FormUrlEncoded
+    @POST("sidekiq/retries/all/kill")
+    Call<Void> killAllRetries(@Field("authenticity_token") String authenticityToken);
 }

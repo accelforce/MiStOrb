@@ -10,6 +10,7 @@ import net.accelf.mistorb.listlayout.LayoutSize;
 import net.accelf.mistorb.model.Sidekiq;
 import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.processes.ProcessesActivity;
+import net.accelf.mistorb.retries.RetriesActivity;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -70,7 +71,11 @@ class ViewStatsHelper {
         updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
                 format.format(sidekiq.scheduled), null, new LayoutSize(2)));
         updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
-                format.format(sidekiq.retries), null, new LayoutSize(2)));
+                format.format(sidekiq.retries), v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, RetriesActivity.class);
+            context.startActivity(intent);
+        }, new LayoutSize(2)));
         updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
                 format.format(sidekiq.dead), null, new LayoutSize(2)));
 

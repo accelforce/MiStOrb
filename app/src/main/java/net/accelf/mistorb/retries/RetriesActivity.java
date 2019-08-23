@@ -40,19 +40,23 @@ import retrofit2.Response;
 
 public class RetriesActivity extends AppCompatActivity {
 
-    private static final int FETCH_ONCE = 500;
     private MastodonSidekiqApi sidekiqApi;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private RetriesViewAdapter adapter;
-    private int page;
-    private List<RetryModel> list = new ArrayList<>();
     private ProgressBar loading;
     private TextView loadingTextView;
+
+    private static final int FETCH_ONCE = 500;
+    private int page;
+
     private Callback<ResponseBody> fetchRetriesCallback;
     private Callback<ResponseBody> refreshRetriesCallback;
+
     private String authenticityToken;
+    private List<RetryModel> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

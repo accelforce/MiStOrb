@@ -3,16 +3,16 @@ package net.accelf.mistorb.main;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import net.accelf.mistorb.components.datavalue.DataValueModel;
-import net.accelf.mistorb.components.datavalue.DataValueViewHolder;
-import net.accelf.mistorb.components.singletitle.SingleTitleModel;
-import net.accelf.mistorb.components.singletitle.SingleTitleViewHolder;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import net.accelf.mistorb.main.components.datavalue.DataValueModel;
+import net.accelf.mistorb.main.components.datavalue.DataValueViewHolder;
+import net.accelf.mistorb.main.components.singletitle.SingleTitleModel;
+import net.accelf.mistorb.main.components.singletitle.SingleTitleViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class StatsViewAdapter extends RecyclerView.Adapter {
 

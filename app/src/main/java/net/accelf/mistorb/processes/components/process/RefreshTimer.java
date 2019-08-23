@@ -1,4 +1,4 @@
-package net.accelf.mistorb.components.process;
+package net.accelf.mistorb.processes.components.process;
 
 import android.os.Handler;
 import android.widget.TextView;

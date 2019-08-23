@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.accelf.mistorb.components.process.ProcessModel;
-import net.accelf.mistorb.components.process.ProcessViewHolder;
+import net.accelf.mistorb.processes.components.process.ProcessModel;
+import net.accelf.mistorb.processes.components.process.ProcessViewHolder;
 
 import java.util.List;
 

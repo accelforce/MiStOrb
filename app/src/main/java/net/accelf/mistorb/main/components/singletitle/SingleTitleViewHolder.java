@@ -1,12 +1,12 @@
-package net.accelf.mistorb.components.singletitle;
+package net.accelf.mistorb.main.components.singletitle;
 
 import android.view.View;
 import android.widget.TextView;
 
-import net.accelf.mistorb.R;
-
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
+
+import net.accelf.mistorb.R;
 
 public class SingleTitleViewHolder extends RecyclerView.ViewHolder {
 

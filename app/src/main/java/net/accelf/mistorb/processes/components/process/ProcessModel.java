@@ -1,4 +1,4 @@
-package net.accelf.mistorb.components.process;
+package net.accelf.mistorb.processes.components.process;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;

@@ -1,4 +1,4 @@
-package net.accelf.mistorb.components.singletitle;
+package net.accelf.mistorb.main.components.singletitle;
 
 import net.accelf.mistorb.listlayout.LayoutSize;
 

@@ -1,4 +1,4 @@
-package net.accelf.mistorb.components.retry;
+package net.accelf.mistorb.retries.components.retry;
 
 import android.view.View;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package net.accelf.mistorb.components.process;
+package net.accelf.mistorb.processes.components.process;
 
 import android.content.res.Resources;
 import android.os.Handler;

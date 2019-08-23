@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.accelf.mistorb.components.retry.RetryModel;
-import net.accelf.mistorb.components.retry.RetryViewHolder;
+import net.accelf.mistorb.retries.components.retry.RetryModel;
+import net.accelf.mistorb.retries.components.retry.RetryViewHolder;
 
 import java.util.List;
 

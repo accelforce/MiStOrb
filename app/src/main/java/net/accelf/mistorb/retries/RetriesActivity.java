@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.accelf.mistorb.R;
-import net.accelf.mistorb.components.retry.RetryModel;
 import net.accelf.mistorb.db.InstancePickUtil;
 import net.accelf.mistorb.menu.GlobalMenuHelper;
 import net.accelf.mistorb.network.MastodonSidekiqApi;
 import net.accelf.mistorb.network.RetrofitHelper;
+import net.accelf.mistorb.retries.components.retry.RetryModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     private InstancePickUtil instancePicker;
     private String selectedDomain;
-    private String cookies;
     private MastodonSidekiqApi sidekiqApi;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -72,14 +71,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        getCookies();
         setupLayoutVariables();
         setupToolbar();
         setupDrawer();
         swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
         setupRecyclerView();
         viewStatsHelper.setServerDomain(selectedDomain);
-        sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, cookies);
+        sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, instancePicker.getCookies());
         setupCallback();
         fetchStats();
     }
@@ -109,10 +107,6 @@ public class MainActivity extends AppCompatActivity {
     private void requestInstanceDomain() {
         startActivity(DomainInputActivity.createIntent(this));
         finish();
-    }
-
-    private void getCookies() {
-        cookies = instancePicker.getCookies();
     }
 
     private void setupLayoutVariables() {

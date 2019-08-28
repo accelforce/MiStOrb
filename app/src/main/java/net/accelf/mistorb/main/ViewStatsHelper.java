@@ -1,7 +1,6 @@
 package net.accelf.mistorb.main;
 
 import android.content.Context;
-import android.content.Intent;
 
 import net.accelf.mistorb.R;
 import net.accelf.mistorb.main.components.datavalue.DataValueModel;
@@ -61,21 +60,17 @@ class ViewStatsHelper {
         updateListItem(list, 4, new DataValueModel(context.getString(R.string.activity_main_stats_busy),
                 format.format(sidekiq.busy), null, new LayoutSize(2)));
         updateListItem(list, 5, new DataValueModel(context.getString(R.string.activity_main_stats_processes),
-                format.format(sidekiq.processes), v -> {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, ProcessesActivity.class);
-            context.startActivity(intent);
-        }, new LayoutSize(2)));
+                format.format(sidekiq.processes),
+                v -> context.startActivity(ProcessesActivity.createIntent(v.getContext())),
+                new LayoutSize(2)));
         updateListItem(list, 6, new DataValueModel(context.getString(R.string.activity_main_stats_enqueued),
                 format.format(sidekiq.enqueued), null, new LayoutSize(2)));
         updateListItem(list, 7, new DataValueModel(context.getString(R.string.activity_main_stats_scheduled),
                 format.format(sidekiq.scheduled), null, new LayoutSize(2)));
         updateListItem(list, 8, new DataValueModel(context.getString(R.string.activity_main_stats_retries),
-                format.format(sidekiq.retries), v -> {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, RetriesActivity.class);
-            context.startActivity(intent);
-        }, new LayoutSize(2)));
+                format.format(sidekiq.retries),
+                v -> context.startActivity(RetriesActivity.createIntent(v.getContext())),
+                new LayoutSize(2)));
         updateListItem(list, 9, new DataValueModel(context.getString(R.string.activity_main_stats_dead),
                 format.format(sidekiq.dead), null, new LayoutSize(2)));
 

@@ -1,5 +1,7 @@
 package net.accelf.mistorb.processes;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -52,6 +54,10 @@ public class ProcessesActivity extends AppCompatActivity {
     private Callback<ResponseBody> refreshProcessesCallback;
 
     private String authenticityToken;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ProcessesActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

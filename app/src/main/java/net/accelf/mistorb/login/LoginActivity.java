@@ -1,5 +1,6 @@
 package net.accelf.mistorb.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     private InstancePickUtil instancePicker;
 
     public static final String EXTRA_INSTANCE_DOMAIN = "instance_domain";
+
+    public static Intent createIntent(Context context, String instanceDomain) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(EXTRA_INSTANCE_DOMAIN, instanceDomain);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        startActivity(MainActivity.createIntent(this, false));
         finish();
     }
 }

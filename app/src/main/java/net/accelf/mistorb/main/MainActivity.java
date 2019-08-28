@@ -1,5 +1,6 @@
 package net.accelf.mistorb.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
     private Callback<Stats> fetchStatsCallback;
     private Callback<Stats> refreshStatsCallback;
 
+    public static Intent createIntent(Context context, boolean reload) {
+        Intent intent = new Intent(context, MainActivity.class);
+        if (reload) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestInstanceDomain() {
-        Intent intent = new Intent(this, DomainInputActivity.class);
-        startActivity(intent);
+        startActivity(DomainInputActivity.createIntent(this));
         finish();
     }
 
@@ -141,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = MainActivity.createIntent(this, true);
         startActivity(intent);
 
         finish();
@@ -162,10 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startReLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(LoginActivity.EXTRA_INSTANCE_DOMAIN, selectedDomain);
-        startActivity(intent);
-
+        startActivity(LoginActivity.createIntent(this, selectedDomain));
         finish();
     }
 

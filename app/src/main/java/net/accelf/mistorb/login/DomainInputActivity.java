@@ -1,5 +1,6 @@
 package net.accelf.mistorb.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,10 @@ public class DomainInputActivity extends AppCompatActivity {
     private AppCompatEditText input;
     private Button submit;
     private TextView error;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, DomainInputActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +91,7 @@ public class DomainInputActivity extends AppCompatActivity {
     }
 
     private void startLogin(String domain) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(LoginActivity.EXTRA_INSTANCE_DOMAIN, domain);
-        startActivity(intent);
+        startActivity(LoginActivity.createIntent(this, domain));
         finish();
     }
 }

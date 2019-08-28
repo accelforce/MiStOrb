@@ -1,5 +1,7 @@
 package net.accelf.mistorb.retries;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -57,6 +59,10 @@ public class RetriesActivity extends AppCompatActivity {
 
     private String authenticityToken;
     private List<RetryModel> list = new ArrayList<>();
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, RetriesActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

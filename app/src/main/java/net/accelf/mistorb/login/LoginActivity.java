@@ -12,7 +12,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.accelf.mistorb.R;
@@ -41,14 +40,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setupLayoutVariables();
+        webView = findViewById(R.id.activity_login_web_view);
 
         instancePicker = new InstancePickUtil(this);
 
-        instanceDomain = getDomainFromIntent(getIntent());
-        clearCookie();
+        instanceDomain = getIntent().getStringExtra(EXTRA_INSTANCE_DOMAIN);
+        CookieManager.getInstance()
+                .removeAllCookies(null);
         setupWebView();
-        loadLoginPage(buildLoginUrl(instanceDomain));
+        webView.loadUrl(buildLoginUrl(instanceDomain));
     }
 
     @Override
@@ -65,14 +65,6 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getDomainFromIntent(Intent intent) {
-        return intent.getStringExtra(EXTRA_INSTANCE_DOMAIN);
-    }
-
-    private void setupLayoutVariables() {
-        webView = findViewById(R.id.activity_login_web_view);
-    }
-
     private static String buildLoginUrl(String instanceDomain) {
         Uri uri = new Uri.Builder()
                 .scheme("https")
@@ -82,16 +74,11 @@ public class LoginActivity extends AppCompatActivity {
         return uri.toString();
     }
 
-    private void clearCookie(){
-        CookieManager.getInstance()
-                .removeAllCookies(null);
-    }
-
     private void setupWebView() {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (checkSucceedPath(request.getUrl().getPath())) {
+                if ("/".equals(request.getUrl().getPath())) {
                     completeLogin();
                     return true;
                 }
@@ -100,24 +87,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loadLoginPage(String url) {
-        webView.loadUrl(url);
-    }
-
-    private static boolean checkSucceedPath(@Nullable String path) {
-        return "/".equals(path);
-    }
-
     private void completeLogin() {
         CookieManager cookieManager = CookieManager.getInstance();
         String cookieHost = RetrofitHelper.generateEndpoint(instanceDomain).toString();
         String cookie = cookieManager.getCookie(cookieHost);
         instancePicker.addNewInstance(instanceDomain, cookie);
 
-        startMainActivity();
-    }
-
-    private void startMainActivity() {
         startActivity(MainActivity.createIntent(this, false));
         finish();
     }

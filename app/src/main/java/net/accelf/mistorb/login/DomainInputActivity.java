@@ -58,7 +58,7 @@ public class DomainInputActivity extends AppCompatActivity {
         submit.setOnClickListener(v -> {
             String domain = getInputDomain();
             if (domain == null) {
-                raiseError(getString(R.string.activity_domain_input_error_invalid));
+                error.setText(getString(R.string.activity_domain_input_error_invalid));
                 resetField();
                 return;
             }
@@ -77,10 +77,6 @@ public class DomainInputActivity extends AppCompatActivity {
         }
 
         return null;
-    }
-
-    private void raiseError(String message) {
-        error.setText(message);
     }
 
     private void resetField() {

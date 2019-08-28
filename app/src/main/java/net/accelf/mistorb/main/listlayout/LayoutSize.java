@@ -1,4 +1,4 @@
-package net.accelf.mistorb.listlayout;
+package net.accelf.mistorb.main.listlayout;
 
 public class LayoutSize {
 

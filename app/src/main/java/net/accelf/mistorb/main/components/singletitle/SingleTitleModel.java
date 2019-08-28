@@ -1,6 +1,6 @@
 package net.accelf.mistorb.main.components.singletitle;
 
-import net.accelf.mistorb.listlayout.LayoutSize;
+import net.accelf.mistorb.main.listlayout.LayoutSize;
 
 public class SingleTitleModel {
 

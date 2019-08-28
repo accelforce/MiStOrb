@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import net.accelf.mistorb.R;
-import net.accelf.mistorb.listlayout.LayoutSize;
 import net.accelf.mistorb.main.components.datavalue.DataValueModel;
 import net.accelf.mistorb.main.components.singletitle.SingleTitleModel;
+import net.accelf.mistorb.main.listlayout.LayoutSize;
 import net.accelf.mistorb.model.Sidekiq;
 import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.processes.ProcessesActivity;

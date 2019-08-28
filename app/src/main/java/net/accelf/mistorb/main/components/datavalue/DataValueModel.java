@@ -2,7 +2,7 @@ package net.accelf.mistorb.main.components.datavalue;
 
 import android.view.View;
 
-import net.accelf.mistorb.listlayout.LayoutSize;
+import net.accelf.mistorb.main.listlayout.LayoutSize;
 
 public class DataValueModel {
 

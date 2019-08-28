@@ -240,8 +240,10 @@ public class RetriesActivity extends AppCompatActivity {
         Document document = Jsoup.parse(body);
 
         Element input = document.select("form input[name=\"authenticity_token\"]").first();
-        authenticityToken = input.attr("value");
-        invalidateOptionsMenu();
+        if (input != null) {
+            authenticityToken = input.attr("value");
+            invalidateOptionsMenu();
+        }
 
         return RetryModel.toRetries(document);
     }

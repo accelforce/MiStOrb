@@ -7,6 +7,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -22,13 +30,6 @@ import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.network.MastodonSidekiqApi;
 import net.accelf.mistorb.network.RetrofitHelper;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setupLayoutVariables();
         setupToolbar();
         setupDrawer();
-        setupSwipeRefreshLayout();
+        swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
         setupRecyclerView();
         viewStatsHelper.setServerDomain(selectedDomain);
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, cookies);
@@ -170,10 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-    }
-
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
     }
 
     private void setupRecyclerView() {

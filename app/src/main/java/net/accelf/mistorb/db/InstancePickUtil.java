@@ -52,9 +52,6 @@ public class InstancePickUtil {
             return false;
         }
         Object[] domainArray = domainList.toArray();
-        if (domainArray == null) {
-            return false;
-        }
         setSelectedInstance((String) domainArray[0]);
         return true;
     }

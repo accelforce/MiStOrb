@@ -15,6 +15,12 @@ public class ProcessesViewAdapter extends RecyclerView.Adapter {
 
     private List<ProcessModel> list;
 
+    private BottomSheetUtil bottomSheetUtil;
+
+    ProcessesViewAdapter(BottomSheetUtil bottomSheetUtil) {
+        this.bottomSheetUtil = bottomSheetUtil;
+    }
+
     void setList(List<ProcessModel> list) {
         this.list = list;
         notifyDataSetChanged();
@@ -31,7 +37,7 @@ public class ProcessesViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ProcessViewHolder) holder).onBindItemViewHolder(list.get(position));
+        ((ProcessViewHolder) holder).onBindItemViewHolder(list.get(position), bottomSheetUtil);
     }
 
     @Override

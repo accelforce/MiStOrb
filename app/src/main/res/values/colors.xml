@@ -9,5 +9,6 @@
     <color name="colorProcessStatusBusy">#fbc02d</color>
     <color name="colorProcessStatusRunning">#5cb85c</color>
     <color name="colorProcessStatusQuiet">#d9534f</color>
+    <color name="colorProcessBottomSheetBackground">#424242</color>
     <color name="transparent">#00000000</color>
 </resources>

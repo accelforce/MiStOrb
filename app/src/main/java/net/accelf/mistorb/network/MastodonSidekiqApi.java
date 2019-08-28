@@ -27,6 +27,18 @@ public interface MastodonSidekiqApi {
     Call<Void> killAllProcesses(@Field("authenticity_token") String authenticityToken,
                                 @Field("stop") boolean stop);
 
+    @FormUrlEncoded
+    @POST("sidekiq/busy")
+    Call<Void> quietProcess(@Field("authenticity_token") String authenticityToken,
+                            @Field("identity") String identity,
+                            @Field("quiet") boolean quiet);
+
+    @FormUrlEncoded
+    @POST("sidekiq/busy")
+    Call<Void> killProcess(@Field("authenticity_token") String authenticityToken,
+                           @Field("identity") String identity,
+                           @Field("stop") boolean stop);
+
     @GET("sidekiq/retries")
     Call<ResponseBody> getRetries(@Query("page") int page, @Query("count") int count);
 

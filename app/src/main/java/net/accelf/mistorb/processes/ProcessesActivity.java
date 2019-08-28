@@ -11,6 +11,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,6 +45,8 @@ public class ProcessesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProcessesViewAdapter adapter;
     private ProgressBar loading;
+    private ConstraintLayout bottomSheet;
+    private BottomSheetUtil bottomSheetUtil;
 
     private Callback<ResponseBody> fetchProcessesCallback;
     private Callback<ResponseBody> refreshProcessesCallback;
@@ -61,6 +64,7 @@ public class ProcessesActivity extends AppCompatActivity {
         setupLayoutVariables();
         setupToolbar();
         setupSwipeRefreshLayout();
+        setupBottomSheet();
         setupRecyclerView();
         setupCallback();
         fetchProcesses();
@@ -124,11 +128,21 @@ public class ProcessesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (bottomSheetUtil.isOpening()) {
+            bottomSheetUtil.close();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private void setupLayoutVariables() {
         swipeRefreshLayout = findViewById(R.id.activity_processes_swipe_refresh_layout);
         toolbar = findViewById(R.id.activity_processes_toolbar);
         recyclerView = findViewById(R.id.activity_processes_recycler_view);
         loading = findViewById(R.id.activity_processes_loading);
+        bottomSheet = findViewById(R.id.activity_processes_bottom_sheet);
     }
 
     private void setupToolbar() {
@@ -140,7 +154,7 @@ public class ProcessesActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new ProcessesViewAdapter();
+        adapter = new ProcessesViewAdapter(bottomSheetUtil);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -148,6 +162,11 @@ public class ProcessesActivity extends AppCompatActivity {
                 this, layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
         recyclerView.setAdapter(adapter);
+    }
+
+    public void setupBottomSheet() {
+        bottomSheetUtil = new BottomSheetUtil(bottomSheet, recyclerView, sidekiqApi);
+        bottomSheetUtil.close();
     }
 
     private void setupCallback() {

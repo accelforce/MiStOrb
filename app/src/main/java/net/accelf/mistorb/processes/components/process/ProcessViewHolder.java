@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.accelf.mistorb.R;
 import net.accelf.mistorb.compat.AndroidApiCompat;
+import net.accelf.mistorb.processes.BottomSheetUtil;
 
 public class ProcessViewHolder extends RecyclerView.ViewHolder {
 
@@ -42,7 +43,7 @@ public class ProcessViewHolder extends RecyclerView.ViewHolder {
         initializeTimer();
     }
 
-    public void onBindItemViewHolder(ProcessModel data) {
+    public void onBindItemViewHolder(ProcessModel data, BottomSheetUtil bottomSheetUtil) {
         setStatus(root.getResources(), root.getContext().getTheme(), statusButton, data.status);
         idTextView.setText(data.id);
         directoryTextView.setText(data.directory);
@@ -50,6 +51,12 @@ public class ProcessViewHolder extends RecyclerView.ViewHolder {
         queuesTextView.setText(data.queues);
         runningTextView.setText(data.running);
         threadsTextView.setText(data.threads);
+
+        if (bottomSheetUtil != null) {
+            root.setOnClickListener(v -> bottomSheetUtil.open(data));
+        } else {
+            root.setClickable(true);
+        }
     }
 
     private void setStatus(Resources resources, Resources.Theme theme, Button statusButton, ProcessModel.Status status) {

@@ -15,6 +15,9 @@
     <string name="activity_main_stats_retries">Retries</string>
     <string name="activity_main_stats_dead">Dead</string>
 
+    <string name="activity_processes_quiet">Quiet</string>
+    <string name="activity_processes_kill">Kill</string>
+
     <string name="activity_retries_loading_text_view">Fetching page %d… (Row %d ~ %d)</string>
 
     <string name="menu_oss_licenses">オープンソースライセンス</string>

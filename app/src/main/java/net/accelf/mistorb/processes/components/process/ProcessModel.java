@@ -18,6 +18,8 @@ public class ProcessModel {
 
     private static SimpleDateFormat dateFormat =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+    public String authenticityToken;
+    public String identity;
     Status status;
     String id;
     String directory;
@@ -27,7 +29,8 @@ public class ProcessModel {
     String threads;
 
     private ProcessModel(Status status, String id, String directory, Date startedAt,
-                         String queues, String running, String threads) {
+                         String queues, String running, String threads,
+                         String authenticityToken, String identity) {
         this.status = status;
         this.id = id;
         this.directory = directory;
@@ -35,6 +38,8 @@ public class ProcessModel {
         this.queues = queues;
         this.running = running;
         this.threads = threads;
+        this.authenticityToken = authenticityToken;
+        this.identity = identity;
     }
 
     public static List<ProcessModel> toProcesses(Document document) {
@@ -74,6 +79,8 @@ public class ProcessModel {
             status = Status.BUSY;
         }
 
+        Element tokenInput = element.select("form input[name=\"authenticity_token\"]").first();
+        Element identityInput = element.select("form input[name=\"identity\"]").first();
 
         return new ProcessModel(status,
                 id,
@@ -81,7 +88,9 @@ public class ProcessModel {
                 date,
                 StringUtils.join(boxText, " "),
                 running,
-                values.get(2).text());
+                values.get(2).text(),
+                tokenInput.attr("value"),
+                identityInput.attr("value"));
     }
 
     enum Status {

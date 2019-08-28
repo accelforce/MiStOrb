@@ -31,7 +31,7 @@ public class InstancePickUtil {
                 .apply();
     }
 
-    public void removeInstance() {
+    void removeInstance() {
         saveData.removeCookie(selectedInstance());
         preferences.edit()
                 .remove(selectedInstance())

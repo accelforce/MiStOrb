@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
             return true;
         }

@@ -10,14 +10,15 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import net.accelf.mistorb.R;
-import net.accelf.mistorb.network.RetrofitHelper;
-import net.accelf.mistorb.main.MainActivity;
-import net.accelf.mistorb.db.InstancePickUtil;
-import net.accelf.mistorb.menu.GlobalMenuHelper;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import net.accelf.mistorb.R;
+import net.accelf.mistorb.db.InstancePickUtil;
+import net.accelf.mistorb.main.MainActivity;
+import net.accelf.mistorb.menu.GlobalMenuHelper;
+import net.accelf.mistorb.network.RetrofitHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
             return true;
         }

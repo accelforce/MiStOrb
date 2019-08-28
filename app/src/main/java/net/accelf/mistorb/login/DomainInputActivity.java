@@ -7,11 +7,12 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.accelf.mistorb.R;
-import net.accelf.mistorb.menu.GlobalMenuHelper;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
+
+import net.accelf.mistorb.R;
+import net.accelf.mistorb.menu.GlobalMenuHelper;
 
 public class DomainInputActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class DomainInputActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (GlobalMenuHelper.onGlobalMenuItemSelected(this, item)) {
             return true;
         }

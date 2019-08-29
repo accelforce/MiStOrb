@@ -68,12 +68,12 @@ public class ProcessesActivity extends AppCompatActivity {
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(instancePicker.selectedInstance(), instancePicker.getCookies());
 
         setupLayoutVariables();
-        setupToolbar();
-        setupSwipeRefreshLayout();
+        setSupportActionBar(toolbar);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshProcesses);
         setupBottomSheet();
         setupRecyclerView();
         setupCallback();
-        fetchProcesses();
+        sidekiqApi.getProcesses().enqueue(fetchProcessesCallback);
     }
 
     @Override
@@ -151,14 +151,6 @@ public class ProcessesActivity extends AppCompatActivity {
         bottomSheet = findViewById(R.id.activity_processes_bottom_sheet);
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-    }
-
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(this::refreshProcesses);
-    }
-
     private void setupRecyclerView() {
         adapter = new ProcessesViewAdapter(bottomSheetUtil);
         recyclerView.setHasFixedSize(true);
@@ -226,10 +218,6 @@ public class ProcessesActivity extends AppCompatActivity {
         invalidateOptionsMenu();
 
         adapter.setList(ProcessModel.toProcesses(document));
-    }
-
-    private void fetchProcesses() {
-        sidekiqApi.getProcesses().enqueue(fetchProcessesCallback);
     }
 
     private void refreshProcesses() {

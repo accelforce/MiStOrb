@@ -2,19 +2,17 @@ package net.accelf.mistorb.processes;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +35,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static net.accelf.mistorb.menu.MenuUtil.setOptionsItemState;
 
 public class ProcessesActivity extends AppCompatActivity {
 
@@ -85,17 +85,11 @@ public class ProcessesActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        setOptionsItemState(menu, R.id.menu_processes_quiet_all, authenticityToken != null);
-        setOptionsItemState(menu, R.id.menu_processes_kill_all, authenticityToken != null);
+        Resources resources = getResources();
+        Resources.Theme theme = getTheme();
+        setOptionsItemState(menu, R.id.menu_processes_quiet_all, authenticityToken != null, resources, theme);
+        setOptionsItemState(menu, R.id.menu_processes_kill_all, authenticityToken != null, resources, theme);
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    private void setOptionsItemState(Menu menu, @IdRes int id, boolean state) {
-        MenuItem item = menu.findItem(id);
-        item.setEnabled(state);
-        Drawable icon = DrawableCompat.wrap(item.getIcon());
-        DrawableCompat.setTint(icon, state ? getColor(R.color.colorMenuEnabled) : getColor(R.color.colorMenuDisabled));
-        item.setIcon(icon);
     }
 
     @Override

@@ -73,8 +73,8 @@ public class RetriesActivity extends AppCompatActivity {
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(instancePicker.selectedInstance(), instancePicker.getCookies());
 
         setupLayoutVariables();
-        setupToolbar();
-        setupSwipeRefreshLayout();
+        setSupportActionBar(toolbar);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshRetries);
         setupRecyclerView();
         setupCallback();
         page = 0;
@@ -160,14 +160,6 @@ public class RetriesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activity_retries_recycler_view);
         loading = findViewById(R.id.activity_retries_loading);
         loadingTextView = findViewById(R.id.activity_retries_loading_text_view);
-    }
-
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-    }
-
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(this::refreshRetries);
     }
 
     private void setupRecyclerView() {
@@ -257,7 +249,8 @@ public class RetriesActivity extends AppCompatActivity {
     private void fetchRetries(Callback<ResponseBody> callback) {
         page++;
         sidekiqApi.getRetries(page, FETCH_ONCE).enqueue(callback);
-        updateLoadingTextView();
+        loadingTextView.setText(getString(R.string.activity_retries_loading_text_view, page,
+                list.size() + 1, FETCH_ONCE * page));
     }
 
     private void refreshRetries() {
@@ -271,11 +264,6 @@ public class RetriesActivity extends AppCompatActivity {
         loading.setVisibility(View.INVISIBLE);
         loadingTextView.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
-    }
-
-    private void updateLoadingTextView() {
-        loadingTextView.setText(getString(R.string.activity_retries_loading_text_view, page,
-                list.size() + 1, FETCH_ONCE * page));
     }
 
 }

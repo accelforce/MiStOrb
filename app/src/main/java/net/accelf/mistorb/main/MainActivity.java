@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -34,6 +32,8 @@ import net.accelf.mistorb.network.RetrofitHelper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Response;
+
+import static net.accelf.mistorb.view.RecyclerViewHelper.setupRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setupDrawer();
         swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
-        setupRecyclerView();
+        StatsViewAdapter adapter = new StatsViewAdapter();
+        setupRecyclerView(recyclerView, adapter);
+        viewStatsHelper = new ViewStatsHelper(this, adapter);
         viewStatsHelper.setServerDomain(selectedDomain);
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, instancePicker.getCookies());
         //noinspection ResultOfMethodCallIgnored
@@ -166,18 +168,6 @@ public class MainActivity extends AppCompatActivity {
     private void startReLogin() {
         startActivity(LoginActivity.createIntent(this, selectedDomain));
         finish();
-    }
-
-    private void setupRecyclerView() {
-        StatsViewAdapter adapter = new StatsViewAdapter();
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(
-                this, layoutManager.getOrientation());
-        recyclerView.addItemDecoration(divider);
-        recyclerView.setAdapter(adapter);
-        viewStatsHelper = new ViewStatsHelper(this, adapter);
     }
 
     @SuppressLint("CheckResult")

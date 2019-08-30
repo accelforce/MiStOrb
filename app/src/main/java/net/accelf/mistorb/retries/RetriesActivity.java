@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -38,6 +36,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static net.accelf.mistorb.menu.MenuUtil.setOptionsItemState;
+import static net.accelf.mistorb.view.RecyclerViewHelper.setupRecyclerView;
 
 public class RetriesActivity extends AppCompatActivity {
 
@@ -71,7 +70,8 @@ public class RetriesActivity extends AppCompatActivity {
         setupLayoutVariables();
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(this::refreshRetries);
-        setupRecyclerView();
+        adapter = new RetriesViewAdapter();
+        setupRecyclerView(recyclerView, adapter);
         page = 0;
         list.clear();
         fetchRetries(false);
@@ -128,17 +128,6 @@ public class RetriesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activity_retries_recycler_view);
         loading = findViewById(R.id.activity_retries_loading);
         loadingTextView = findViewById(R.id.activity_retries_loading_text_view);
-    }
-
-    private void setupRecyclerView() {
-        adapter = new RetriesViewAdapter();
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(
-                this, layoutManager.getOrientation());
-        recyclerView.addItemDecoration(divider);
-        recyclerView.setAdapter(adapter);
     }
 
     private List<RetryModel> parseDocument(String body) {

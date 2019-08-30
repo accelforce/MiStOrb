@@ -13,8 +13,6 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -36,6 +34,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static net.accelf.mistorb.menu.MenuUtil.setOptionsItemState;
+import static net.accelf.mistorb.view.RecyclerViewHelper.setupRecyclerView;
 
 public class ProcessesActivity extends AppCompatActivity {
 
@@ -68,7 +67,8 @@ public class ProcessesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(this::refreshProcesses);
         setupBottomSheet();
-        setupRecyclerView();
+        adapter = new ProcessesViewAdapter(bottomSheetUtil);
+        setupRecyclerView(recyclerView, adapter);
         //noinspection ResultOfMethodCallIgnored
         sidekiqApi.getProcesses()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -129,17 +129,6 @@ public class ProcessesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activity_processes_recycler_view);
         loading = findViewById(R.id.activity_processes_loading);
         bottomSheet = findViewById(R.id.activity_processes_bottom_sheet);
-    }
-
-    private void setupRecyclerView() {
-        adapter = new ProcessesViewAdapter(bottomSheetUtil);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(
-                this, layoutManager.getOrientation());
-        recyclerView.addItemDecoration(divider);
-        recyclerView.setAdapter(adapter);
     }
 
     public void setupBottomSheet() {

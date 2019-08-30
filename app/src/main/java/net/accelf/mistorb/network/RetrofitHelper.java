@@ -54,10 +54,11 @@ public class RetrofitHelper {
     }
 
     private static OkHttpClient generateOkHttpClient(HttpUrl domain, String cookie) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.level(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BASIC
+                : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor()
-                        .setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BASIC
-                                : HttpLoggingInterceptor.Level.NONE))
+                .addInterceptor(interceptor)
                 .cookieJar(generateCookieJar(domain, cookie))
                 .build();
     }

@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +70,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setupLayoutVariables();
-        setupToolbar();
+        setSupportActionBar(toolbar);
         setupDrawer();
         swipeRefreshLayout.setOnRefreshListener(this::refreshStats);
         setupRecyclerView();
         viewStatsHelper.setServerDomain(selectedDomain);
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, instancePicker.getCookies());
-        fetchStats();
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getStats()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchStatsSuccess(response, false),
+                        throwable -> onFetchStatsFail(throwable, false));
     }
 
     @Override
@@ -163,10 +168,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-    }
-
     private void setupRecyclerView() {
         StatsViewAdapter adapter = new StatsViewAdapter();
         recyclerView.setHasFixedSize(true);
@@ -210,15 +211,6 @@ public class MainActivity extends AppCompatActivity {
         if (refresh) {
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    @SuppressLint("CheckResult")
-    private void fetchStats() {
-        //noinspection ResultOfMethodCallIgnored
-        sidekiqApi.getStats()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> onFetchStatsSuccess(response, false),
-                        throwable -> onFetchStatsFail(throwable, false));
     }
 
     private void viewStats() {

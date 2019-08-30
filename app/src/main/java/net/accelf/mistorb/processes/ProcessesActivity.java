@@ -1,5 +1,6 @@
 package net.accelf.mistorb.processes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,9 +31,8 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static net.accelf.mistorb.menu.MenuUtil.setOptionsItemState;
@@ -50,15 +49,13 @@ public class ProcessesActivity extends AppCompatActivity {
     private ConstraintLayout bottomSheet;
     private BottomSheetUtil bottomSheetUtil;
 
-    private Callback<ResponseBody> fetchProcessesCallback;
-    private Callback<ResponseBody> refreshProcessesCallback;
-
     private String authenticityToken;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ProcessesActivity.class);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +69,11 @@ public class ProcessesActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(this::refreshProcesses);
         setupBottomSheet();
         setupRecyclerView();
-        setupCallback();
-        sidekiqApi.getProcesses().enqueue(fetchProcessesCallback);
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getProcesses()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchProcessesSuccess(response, false),
+                        throwable -> onFetchProcessesFail(throwable, false));
     }
 
     @Override
@@ -97,28 +97,14 @@ public class ProcessesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_processes_quiet_all: {
                 sidekiqApi.quietAllProcesses(authenticityToken, true)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            }
-                        });
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
                 return true;
             }
             case R.id.menu_processes_kill_all: {
                 sidekiqApi.killAllProcesses(authenticityToken, true)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            }
-                        });
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
                 return true;
             }
         }
@@ -161,47 +147,28 @@ public class ProcessesActivity extends AppCompatActivity {
         bottomSheetUtil.close();
     }
 
-    private void setupCallback() {
-        fetchProcessesCallback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                viewProcesses();
-                if (response.body() == null) {
-                    return;
-                }
-                try {
-                    parseDocument(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private void onFetchProcessesSuccess(Response<ResponseBody> response, boolean refresh) {
+        viewProcesses();
+        if (response.body() != null) {
+            try {
+                parseDocument(response.body().string());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                viewProcesses();
-            }
-        };
-        refreshProcessesCallback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                viewProcesses();
-                if (response.body() == null) {
-                    return;
-                }
-                try {
-                    parseDocument(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                viewProcesses();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        };
+    private void onFetchProcessesFail(Throwable throwable, boolean refresh) {
+        throwable.printStackTrace();
+        viewProcesses();
+
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void parseDocument(String body) {
@@ -214,9 +181,14 @@ public class ProcessesActivity extends AppCompatActivity {
         adapter.setList(ProcessModel.toProcesses(document));
     }
 
+    @SuppressLint("CheckResult")
     private void refreshProcesses() {
         swipeRefreshLayout.setRefreshing(true);
-        sidekiqApi.getProcesses().enqueue(refreshProcessesCallback);
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getProcesses()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchProcessesSuccess(response, true),
+                        throwable -> onFetchProcessesFail(throwable, true));
     }
 
     private void viewProcesses() {

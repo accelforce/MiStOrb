@@ -2,7 +2,6 @@ package net.accelf.mistorb.processes;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,9 +13,7 @@ import net.accelf.mistorb.network.MastodonSidekiqApi;
 import net.accelf.mistorb.processes.components.process.ProcessModel;
 import net.accelf.mistorb.processes.components.process.ProcessViewHolder;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class BottomSheetUtil {
 
@@ -27,8 +24,6 @@ public class BottomSheetUtil {
     private ProcessViewHolder viewHolder;
     private MaterialButton quietButton;
     private MaterialButton killButton;
-
-    private Callback<Void> callback;
 
     BottomSheetUtil(ConstraintLayout bottomSheet, RecyclerView mainView, MastodonSidekiqApi sidekiqApi) {
         this.bottomSheet = bottomSheet;
@@ -42,20 +37,6 @@ public class BottomSheetUtil {
         View processView = bottomSheet.findViewById(R.id.activity_processes_process_item_selected);
 
         viewHolder = new ProcessViewHolder(processView);
-
-        setupCallback();
-    }
-
-    private void setupCallback() {
-        callback = new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-            }
-        };
     }
 
     public void open(ProcessModel data) {
@@ -67,9 +48,11 @@ public class BottomSheetUtil {
 
     private void setupOnClickListener(String authenticityToken, String identity) {
         quietButton.setOnClickListener(v -> sidekiqApi.quietProcess(authenticityToken, identity, true)
-                .enqueue(callback));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe());
         killButton.setOnClickListener(v -> sidekiqApi.killProcess(authenticityToken, identity, true)
-                .enqueue(callback));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe());
     }
 
     void close() {

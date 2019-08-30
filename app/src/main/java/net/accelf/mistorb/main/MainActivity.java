@@ -1,5 +1,6 @@
 package net.accelf.mistorb.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,8 +32,7 @@ import net.accelf.mistorb.model.Stats;
 import net.accelf.mistorb.network.MastodonSidekiqApi;
 import net.accelf.mistorb.network.RetrofitHelper;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loading;
     private ViewStatsHelper viewStatsHelper;
     private Drawer drawer;
-
-    private Callback<Stats> fetchStatsCallback;
-    private Callback<Stats> refreshStatsCallback;
 
     public static Intent createIntent(Context context, boolean reload) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -78,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         viewStatsHelper.setServerDomain(selectedDomain);
         sidekiqApi = RetrofitHelper.generateMastodonSidekiqApi(selectedDomain, instancePicker.getCookies());
-        setupCallback();
         fetchStats();
     }
 
@@ -183,50 +179,46 @@ public class MainActivity extends AppCompatActivity {
         viewStatsHelper = new ViewStatsHelper(this, adapter);
     }
 
+    @SuppressLint("CheckResult")
     private void refreshStats() {
         swipeRefreshLayout.setRefreshing(true);
-        sidekiqApi.getStats().enqueue(refreshStatsCallback);
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getStats()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchStatsSuccess(response, true),
+                        throwable -> onFetchStatsFail(throwable, true));
     }
 
-    private void setupCallback() {
-        fetchStatsCallback = new Callback<Stats>() {
-            @Override
-            public void onResponse(@NonNull Call<Stats> call, @NonNull Response<Stats> response) {
-                if (response.body() == null) {
-                    viewStats();
-                    viewStatsHelper.updateStats(new Stats());
-                    return;
-                }
-                viewStats();
-                viewStatsHelper.updateStats(response.body());
-            }
+    private void onFetchStatsSuccess(Response<Stats> response, boolean refresh) {
+        viewStats();
+        if (response.body() != null) {
+            viewStatsHelper.updateStats(response.body());
+        } else if (!refresh) {
+            viewStatsHelper.updateStats();
+        }
 
-            @Override
-            public void onFailure(@NonNull Call<Stats> call, @NonNull Throwable t) {
-                viewStats();
-                viewStatsHelper.updateStats(new Stats());
-            }
-        };
-        refreshStatsCallback = new Callback<Stats>() {
-            @Override
-            public void onResponse(@NonNull Call<Stats> call, @NonNull Response<Stats> response) {
-                if (response.body() != null) {
-                    viewStatsHelper.updateStats(response.body());
-                }
-                viewStats();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Stats> call, @NonNull Throwable t) {
-                viewStats();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        };
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
+    private void onFetchStatsFail(Throwable throwable, boolean refresh) {
+        throwable.printStackTrace();
+        viewStats();
+        viewStatsHelper.updateStats(new Stats());
+
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @SuppressLint("CheckResult")
     private void fetchStats() {
-        sidekiqApi.getStats().enqueue(fetchStatsCallback);
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getStats()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchStatsSuccess(response, false),
+                        throwable -> onFetchStatsFail(throwable, false));
     }
 
     private void viewStats() {

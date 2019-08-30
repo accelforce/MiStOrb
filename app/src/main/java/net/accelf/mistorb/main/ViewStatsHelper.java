@@ -47,6 +47,10 @@ class ViewStatsHelper {
         adapter.setList(list);
     }
 
+    void updateStats() {
+        updateStats(new Stats());
+    }
+
     void updateStats(Stats data) {
         List<Object> list = adapter.getList();
         NumberFormat format = NumberFormat.getNumberInstance();

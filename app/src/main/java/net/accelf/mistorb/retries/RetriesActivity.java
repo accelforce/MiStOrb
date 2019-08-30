@@ -1,5 +1,6 @@
 package net.accelf.mistorb.retries;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,9 +33,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static net.accelf.mistorb.menu.MenuUtil.setOptionsItemState;
@@ -53,9 +52,6 @@ public class RetriesActivity extends AppCompatActivity {
 
     private static final int FETCH_ONCE = 500;
     private int page;
-
-    private Callback<ResponseBody> fetchRetriesCallback;
-    private Callback<ResponseBody> refreshRetriesCallback;
 
     private String authenticityToken;
     private List<RetryModel> list = new ArrayList<>();
@@ -76,10 +72,9 @@ public class RetriesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(this::refreshRetries);
         setupRecyclerView();
-        setupCallback();
         page = 0;
         list.clear();
-        fetchRetries(fetchRetriesCallback);
+        fetchRetries(false);
     }
 
     @Override
@@ -104,41 +99,20 @@ public class RetriesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_retries_delete_all: {
                 sidekiqApi.deleteAllRetries(authenticityToken)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            }
-                        });
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
                 return true;
             }
             case R.id.menu_retries_retry_all: {
                 sidekiqApi.retryAllRetries(authenticityToken)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            }
-                        });
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
                 return true;
             }
             case R.id.menu_retries_kill_all: {
                 sidekiqApi.killAllRetries(authenticityToken)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            }
-                        });
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
                 return true;
             }
         }
@@ -167,67 +141,6 @@ public class RetriesActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void setupCallback() {
-        fetchRetriesCallback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                if (response.body() == null) {
-                    viewRetries();
-                    return;
-                }
-                try {
-                    List<RetryModel> fetched = parseDocument(response.body().string());
-                    list.addAll(fetched);
-
-                    if (fetched.size() >= FETCH_ONCE) {
-                        fetchRetries(fetchRetriesCallback);
-                    } else {
-                        viewRetries();
-                        adapter.setList(list);
-                    }
-                } catch (IOException e) {
-                    viewRetries();
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                viewRetries();
-            }
-        };
-        refreshRetriesCallback = new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                if (response.body() == null) {
-                    viewRetries();
-                    return;
-                }
-                try {
-                    List<RetryModel> fetched = parseDocument(response.body().string());
-                    list.addAll(fetched);
-
-                    if (fetched.size() >= FETCH_ONCE) {
-                        fetchRetries(refreshRetriesCallback);
-                    } else {
-                        viewRetries();
-                        adapter.setList(list);
-                    }
-                } catch (IOException e) {
-                    viewRetries();
-                    e.printStackTrace();
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                viewRetries();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        };
-    }
-
     private List<RetryModel> parseDocument(String body) {
         Document document = Jsoup.parse(body);
 
@@ -240,18 +153,57 @@ public class RetriesActivity extends AppCompatActivity {
         return RetryModel.toRetries(document);
     }
 
-    private void fetchRetries(Callback<ResponseBody> callback) {
+    @SuppressLint("CheckResult")
+    private void fetchRetries(boolean refresh) {
         page++;
-        sidekiqApi.getRetries(page, FETCH_ONCE).enqueue(callback);
+        //noinspection ResultOfMethodCallIgnored
+        sidekiqApi.getRetries(page, FETCH_ONCE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> onFetchRetriesSuccess(response, refresh),
+                        throwable -> onFetchRetriesFail(throwable, refresh));
         loadingTextView.setText(getString(R.string.activity_retries_loading_text_view, page,
                 list.size() + 1, FETCH_ONCE * page));
+    }
+
+    private void onFetchRetriesSuccess(Response<ResponseBody> response, boolean refresh) {
+        if (response.body() != null) {
+            try {
+                List<RetryModel> fetched = parseDocument(response.body().string());
+                list.addAll(fetched);
+
+                if (fetched.size() >= FETCH_ONCE) {
+                    fetchRetries(refresh);
+                } else {
+                    viewRetries();
+                    adapter.setList(list);
+                }
+            } catch (IOException e) {
+                viewRetries();
+                e.printStackTrace();
+            }
+        } else {
+            viewRetries();
+        }
+
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void onFetchRetriesFail(Throwable throwable, boolean refresh) {
+        throwable.printStackTrace();
+        viewRetries();
+
+        if (refresh) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void refreshRetries() {
         page = 0;
         list.clear();
         swipeRefreshLayout.setRefreshing(true);
-        fetchRetries(refreshRetriesCallback);
+        fetchRetries(true);
     }
 
     private void viewRetries() {

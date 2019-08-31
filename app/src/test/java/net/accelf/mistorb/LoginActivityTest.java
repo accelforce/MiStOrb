@@ -8,16 +8,19 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import net.accelf.mistorb.db.InstancePickUtil;
 import net.accelf.mistorb.license.LicenseActivity;
 import net.accelf.mistorb.login.LoginActivity;
 import net.accelf.mistorb.main.MainActivity;
-import net.accelf.mistorb.db.InstancePickUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
@@ -26,8 +29,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import androidx.test.core.app.ApplicationProvider;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -35,6 +36,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28)
 public class LoginActivityTest {
 
     @Test
@@ -59,22 +61,26 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void test_checkSucceedPath() throws Exception {
-        Method method =
-                LoginActivity.class.getDeclaredMethod("checkSucceedPath", String.class);
-        method.setAccessible(true);
+    public void test_checkSucceedPath() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LoginActivity.class);
+        intent.putExtra(LoginActivity.EXTRA_INSTANCE_DOMAIN, "example.com");
+        LoginActivity activity = Robolectric.buildActivity(LoginActivity.class, intent).create().get();
+        WebView webView = activity.findViewById(R.id.activity_login_web_view);
+        WebViewClient client = webView.getWebViewClient();
 
-        assertTrue((boolean) method.invoke(null, "/"));
+        Uri uri1 = Uri.parse("/");
+        assertTrue(client.shouldOverrideUrlLoading(webView, createWebResourceRequest(uri1)));
 
-        Uri uri1 = Uri.parse("https://example.com/");
-        assertTrue((boolean) method.invoke(null, uri1.getPath()));
+        Uri uri2 = Uri.parse("https://example.com/");
+        assertTrue(client.shouldOverrideUrlLoading(webView, createWebResourceRequest(uri2)));
 
-        Uri uri2 = Uri.parse("https://example.com/auth/sign_in");
-        assertFalse((boolean) method.invoke(null, uri2.getPath()));
+        Uri uri3 = Uri.parse("https://example.com/auth/sign_in");
+        assertFalse(client.shouldOverrideUrlLoading(webView, createWebResourceRequest(uri3)));
     }
 
     @Test
     public void test_onOptionsItemSelected() {
+        @SuppressWarnings("deprecation")
         LoginActivity activity = Robolectric.setupActivity(LoginActivity.class);
 
         MenuItem licenseMenuItem = new RoboMenuItem(R.id.menu_shared_licenses);

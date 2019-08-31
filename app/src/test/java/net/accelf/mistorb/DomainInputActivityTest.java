@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 import net.accelf.mistorb.license.LicenseActivity;
 import net.accelf.mistorb.login.DomainInputActivity;
 import net.accelf.mistorb.login.LoginActivity;
@@ -13,23 +15,24 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
 
 import java.util.Objects;
 
-import androidx.appcompat.widget.AppCompatEditText;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28)
 public class DomainInputActivityTest {
 
     @Test
     public void submit() {
+        @SuppressWarnings("deprecation")
         DomainInputActivity activity = Robolectric.setupActivity(DomainInputActivity.class);
         AppCompatEditText editText = activity.findViewById(R.id.activity_edit_text_domain_input);
 
@@ -57,6 +60,7 @@ public class DomainInputActivityTest {
 
     @Test
     public void test_onOptionsItemSelected() {
+        @SuppressWarnings("deprecation")
         DomainInputActivity activity = Robolectric.setupActivity(DomainInputActivity.class);
 
         MenuItem licenseMenuItem = new RoboMenuItem(R.id.menu_shared_licenses);
@@ -73,7 +77,7 @@ public class DomainInputActivityTest {
         editText.setText(value);
     }
 
-    private void clickButton(DomainInputActivity activity){
+    private void clickButton(DomainInputActivity activity) {
         Button button = activity.findViewById(R.id.activity_button_domain_submit);
         button.performClick();
     }

@@ -1,15 +1,17 @@
 package net.accelf.mistorb.db;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
-import androidx.test.core.app.ApplicationProvider;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28)
 public class SaveDataUtilTest {
 
     @Test

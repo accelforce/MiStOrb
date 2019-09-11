@@ -51,7 +51,7 @@ dependencies {
     implementation 'team.birdhead.licenseview:licenseview:1.0.0'
 
     // Networking
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
